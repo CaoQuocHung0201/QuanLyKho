@@ -7,23 +7,73 @@
     tools:context=".Views.QuanLyTaiKhoan">
 
     <TextView
-        android:id="@+id/btnThemTK"
+        android:id="@+id/btnQuaylai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rouded_corner"
+        android:backgroundTint="#0078e6"
+        android:padding="6dp"
+        android:text="QUAY LẠI"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listAnh" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DANH SÁCH TÀI KHOẢN"
+        android:textColor="#0078e6"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/btnThemTK"
+        app:layout_constraintEnd_toEndOf="@+id/listTK"
+        app:layout_constraintStart_toStartOf="@+id/listTK"
+        app:layout_constraintTop_toTopOf="@+id/btnThemTK" />
+
+    <TextView
+        android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#EC1414"
-        android:text="Thêm"
+        android:text="QUẢN LÝ TÀI KHOẢN"
+        android:textColor="#0078e6"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btnThemTK"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <ListView
         android:id="@+id/listTK"
-        android:layout_width="409dp"
-        android:layout_height="694dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rouded_corner"
+        app:layout_constraintBottom_toTopOf="@+id/btnQuaylai"
+        app:layout_constraintEnd_toEndOf="@+id/btnThemTK"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnThemTK" />
 </androidx.constraintlayout.widget.ConstraintLayout>
