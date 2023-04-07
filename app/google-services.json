@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "950025611098",
+    "firebase_url": "https://app-quanl-ly-kho-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "app-quanl-ly-kho",
+    "storage_bucket": "app-quanl-ly-kho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950025611098:android:eeb655a24ea45bfc41f563",
+        "android_client_info": {
+          "package_name": "com.mibo.quanlykho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950025611098-8mt74fotnherlt3bkga7aojlmtm9vsgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwyIlwXteWCqHPsCeYucG9vykREP7RTuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950025611098-8mt74fotnherlt3bkga7aojlmtm9vsgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,7 +16,7 @@
             android:name=".Views.QuanLyTaiKhoan"
             android:exported="false" />
         <activity
-            android:name=".Views.DangNhap"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Views.QuetMa"
@@ -28,7 +28,7 @@
             android:name=".Views.NhapKho"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Views.DangNhap"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

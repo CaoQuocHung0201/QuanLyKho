@@ -14,6 +14,7 @@ import com.mibo.quanlykho.Views.XuatKho;
 public class MainActivity extends AppCompatActivity {
 
     TextView btnNhap,btnXuat,btnQLTK,btnQLKho;
+    String id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void anhxa(){
+        Intent intent = getIntent();
+        id=intent.getStringExtra("username");
         btnNhap = findViewById(R.id.btnChonNhap);
         btnXuat = findViewById(R.id.btnChonXuat);
         btnQLTK = findViewById(R.id.btnQLTK);
