@@ -1,40 +1,79 @@
 package com.mibo.quanlykho.Models;
 
 public class TaiKhoan {
-    private String username;
-    private String password;
-    private boolean admin;
+
+    private String user;
+    private String pass;
+    private String name;
+    private String old;
+    private String local;
+    private String quen;
+
 
     public TaiKhoan() {
     }
 
-    public TaiKhoan(String username, String password, boolean admin) {
-        this.username = username;
-        this.password = password;
-        this.admin = admin;
+    public TaiKhoan(String user, String pass, String name, String old, String local, String quen) {
+        this.user = user;
+        this.pass = pass;
+        this.name = name;
+        this.old = old;
+        this.local = local;
+        this.quen = quen;
     }
 
-    public String getUsername() {
-        return username;
+    //    public TaiKhoan(String name, String old, String local, String quen) {
+//        this.name = name;
+//        this.old = old;
+//        this.local = local;
+//        this.quen = quen;
+//    }
+
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getOld() {
+        return old;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOld(String old) {
+        this.old = old;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public String getLocal() {
+        return local;
     }
 
-    public void setAdmin(boolean admin) {
-        admin = admin;
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public String getQuen() {
+        return quen;
+    }
+
+    public void setQuen(String quen) {
+        this.quen = quen;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

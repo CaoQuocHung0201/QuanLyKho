@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mibo.quanlykho.Views.NhapKho;
+import com.mibo.quanlykho.Views.QuanLyTaiKhoan;
 import com.mibo.quanlykho.Views.QuetMa;
 import com.mibo.quanlykho.Views.XuatKho;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btnQLTK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(MainActivity.this, QuanLyTaiKhoan.class));
             }
         });
         btnQLKho.setOnClickListener(new View.OnClickListener() {
