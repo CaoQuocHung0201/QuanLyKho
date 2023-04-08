@@ -65,15 +65,6 @@ public class QuanLyTaiKhoan extends AppCompatActivity {
                 DialogThem();
             }
         });
-        btnTailai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(QuanLyTaiKhoan.this, ""+arrTaikhoan.size(), Toast.LENGTH_SHORT).show();
-                //arrTaikhoan.clear();
-                //AddDataList();
-                adapterTaikhoan.notifyDataSetChanged();
-            }
-        });
     }
 
     public void AddDataList(){
@@ -315,7 +306,6 @@ public class QuanLyTaiKhoan extends AppCompatActivity {
         btnThemTK = findViewById(R.id.btnThemTK);
         listTK = findViewById(R.id.listTK);
         arrTaikhoan = new ArrayList<>();
-        btnTailai = findViewById(R.id.btnRefresh);
 
     }
 }
