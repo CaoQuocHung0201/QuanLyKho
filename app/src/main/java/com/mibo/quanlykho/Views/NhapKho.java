@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +37,8 @@ import com.mibo.quanlykho.Models.val;
 import com.mibo.quanlykho.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,33 +59,22 @@ public class NhapKho extends AppCompatActivity {
 
     String id_phieuNhap="",id_nv="",barcode="",thoigian="",ten_sp="",danh_muc="",hsd="",thuonghieu="",xuatxu="",yyyy="",MM="",dd="",hh="",mm="";
     int soluong=0,gia=0,inventory=0;
+    String imageFilePath="";
     Boolean exist=false;
 
     DatabaseReference myData= val.databaseReference;
     StorageReference storageReference= val.storageReference;
     int Requet_code=123;
+    List<String> imageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhap_kho);
         anhxa();
-
-        List<String> imageList = new ArrayList<>();
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
-        ImageAdapter adapter = new ImageAdapter(this, imageList);
-        listAnh.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        listAnh.setAdapter(adapter);
-
-
+        barcode="yuedfrghjkl";
         //get data nếu trùng barcode
-        get_sanpham();
+//        get_sanpham();
 
         danhmuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,9 +98,6 @@ public class NhapKho extends AppCompatActivity {
                 startActivityForResult(intent,Requet_code);
             }
         });
-
-
-
 
         btnNhap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,21 +130,30 @@ public class NhapKho extends AppCompatActivity {
 //
 //                }
 //                up_realtime_phieuNhap();
-
-                upload();
+                for (int i = 0; i < arr_img.size(); i++) {
+                    upload(i);
+                }
             }
         });
     }
 
     //  upload hinh
     //-------------------------------------------------------------------------------------
-    private void upload() {
-        Calendar calendar = Calendar.getInstance();
-        final StorageReference imgUp=storageReference.child(barcode+"/"+calendar.getTimeInMillis()+".png");
 
-        Bitmap bitmap = arr_img.get(0);
+    private void setAnh(){
+        imageList.add(imageFilePath);
+        ImageAdapter adapter = new ImageAdapter(this, imageList);
+        listAnh.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        adapter.notifyDataSetChanged();
+        listAnh.setAdapter(adapter);
+    }
+    private void upload(int i) {
+        Calendar calendar = Calendar.getInstance();
+        final StorageReference imgUp=storageReference.child(barcode+"/"+calendar.getTimeInMillis()+".webp");
+
+        Bitmap bitmap = arr_img.get(i);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+        bitmap.compress(Bitmap.CompressFormat.WEBP,50,baos);
 
         byte[] data_img = baos.toByteArray();
 
@@ -181,7 +179,7 @@ public class NhapKho extends AppCompatActivity {
 //                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
 //                            if (error==null)
 //                                //Log.d("AAA","Ok");
-//                                Toast.makeText(Activity_Add_Danh_muc.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(NhapKho.this, "Upload successful", Toast.LENGTH_SHORT).show();
 //                        }
 //                    });
                 }
@@ -189,6 +187,10 @@ public class NhapKho extends AppCompatActivity {
                     Toast.makeText(NhapKho.this, "Upload lỗi", Toast.LENGTH_SHORT).show();
             }
         });
+//        for (int i = 0; i < arr_img.size(); i++) {
+//
+//        }
+
 
     }
 
@@ -200,12 +202,35 @@ public class NhapKho extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode==Requet_code || requestCode==RESULT_OK && data!=null ){
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+//            Toast.makeText(this, ""+bitmap.toString(), Toast.LENGTH_SHORT).show();
             arr_img.add(bitmap);
+
+            imageFilePath = saveImageToStorage(bitmap);
+            setAnh();
+            //Toast.makeText(this, ""+imageFilePath, Toast.LENGTH_SHORT).show();
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
     //-------------------------------------------------------------------------------------
+    private String saveImageToStorage(Bitmap bitmap) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + ".webp";
+
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imageFile = new File(storageDir, imageFileName);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 50, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return imageFile.getAbsolutePath();
+    }
 
     private void get_sanpham() {
         myData.child(val.Kho).child(val.Local_sp).child(barcode).addValueEventListener(new ValueEventListener() {
@@ -267,7 +292,6 @@ public class NhapKho extends AppCompatActivity {
                 break;
             }
         }
-
     }
 
     private void up_realtime_phieuNhap(){
@@ -317,5 +341,7 @@ public class NhapKho extends AppCompatActivity {
         xuatXu = findViewById(R.id.edtXuatxu_nhap);
         danhmuc = findViewById(R.id.danhMuc_nhap);
         listAnh = findViewById(R.id.listAnh);
+        arr_img = new ArrayList<>();
+        imageList = new ArrayList<>();
     }
 }
