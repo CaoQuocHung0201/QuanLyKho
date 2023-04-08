@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-//import com.google.firebase.auth.AuthResult;
-//import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +48,7 @@ public class DangNhap extends AppCompatActivity {
 
     String user="",pass="",uid="",check="";
 
-    //FirebaseAuth myAuth=val.firebaseAuth;
+    FirebaseAuth myAuth=val.firebaseAuth;
     DatabaseReference myData=val.databaseReference;
 
     @Override
@@ -78,13 +78,16 @@ public class DangNhap extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     TaiKhoan tk=snapshot.getValue(TaiKhoan.class);
                                     if (user.equals(tk.getUser())&&pass.equals(tk.getPass())){
+
                                         uid=snapshot.getKey();
+
                                         if (luuDN.isChecked()){
                                             insert_sqlite();
                                         }
                                         else if (!luuDN.isChecked()) {
                                             delete_rename();
                                         }
+
                                         if (tk.getQuen().equals(val.admin)){
                                             startActivity(new Intent(DangNhap.this,MainActivity.class));
                                             finish();
@@ -94,7 +97,8 @@ public class DangNhap extends AppCompatActivity {
                                         }
 
                                     }
-                                    //else Toast.makeText(DangNhap.this, "Không tồn tại tài khoản hoặc mật khẩu này.", Toast.LENGTH_SHORT).show();
+//                                    else
+//                                        Toast.makeText(DangNhap.this, "Không tồn tại tài khoản hoặc mật khẩu này.", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
