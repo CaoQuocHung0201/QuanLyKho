@@ -87,6 +87,7 @@ public class DangNhap extends AppCompatActivity {
                                         else if (!luuDN.isChecked()) {
                                             delete_rename();
                                         }
+//                                        Toast.makeText(DangNhap.this, ""+uid, Toast.LENGTH_SHORT).show();
 
                                         if (tk.getQuen().equals(val.admin)){
                                             startActivity(new Intent(DangNhap.this,MainActivity.class));
@@ -172,7 +173,7 @@ public class DangNhap extends AppCompatActivity {
             edtTK.setText(getdata.getString(0));
             edtMK.setText(getdata.getString(1));
             luuDN.setChecked(Boolean.valueOf(getdata.getString(3)));
-//            Toast.makeText(this, ""+getdata.getString(3), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, ""+getdata.getString(2), Toast.LENGTH_SHORT).show();
         }
     }
     //-------------------------------------------------------------------------------------
