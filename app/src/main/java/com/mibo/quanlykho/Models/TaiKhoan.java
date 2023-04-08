@@ -9,37 +9,25 @@ public class TaiKhoan {
     private String local;
     private String quen;
 
-    private String uid;
-
 
     public TaiKhoan() {
     }
 
-    public TaiKhoan(String user, String pass, String name, String old, String local, String quen, String uid) {
+    public TaiKhoan(String user, String pass, String name, String old, String local, String quen) {
         this.user = user;
         this.pass = pass;
         this.name = name;
         this.old = old;
         this.local = local;
         this.quen = quen;
-        this.uid = uid;
     }
 
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
+    //    public TaiKhoan(String name, String old, String local, String quen) {
+//        this.name = name;
+//        this.old = old;
+//        this.local = local;
+//        this.quen = quen;
+//    }
 
     public String getName() {
         return name;
@@ -73,11 +61,19 @@ public class TaiKhoan {
         this.quen = quen;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUser() {
+        return user;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

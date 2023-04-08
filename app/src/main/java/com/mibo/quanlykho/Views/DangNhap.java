@@ -48,7 +48,7 @@ public class DangNhap extends AppCompatActivity {
 
     String user="",pass="",uid="",check="";
 
-    //FirebaseAuth myAuth=val.firebaseAuth;
+    FirebaseAuth myAuth=val.firebaseAuth;
     DatabaseReference myData=val.databaseReference;
 
     @Override
