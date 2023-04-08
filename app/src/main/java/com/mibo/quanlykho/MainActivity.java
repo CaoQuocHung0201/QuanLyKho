@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btnNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NhapKho.class));
+                startActivity(new Intent(MainActivity.this, QuetMa.class));
             }
         });
         btnXuat.setOnClickListener(new View.OnClickListener() {
