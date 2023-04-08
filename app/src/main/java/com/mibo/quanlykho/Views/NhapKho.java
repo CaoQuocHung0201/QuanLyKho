@@ -53,7 +53,7 @@ public class NhapKho extends AppCompatActivity {
     RecyclerView listAnh;
 
     ArrayList<String> arr_DanhMuc,arr_MaDanhMuc;
-    ArrayList<Byte> arr_img;
+    ArrayList<Bitmap> arr_img;
     ArrayAdapter arrayAdapter_DanhMuc;
 
     String id_phieuNhap="",id_nv="",barcode="",thoigian="",ten_sp="",danh_muc="",hsd="",thuonghieu="",xuatxu="",yyyy="",MM="",dd="",hh="",mm="";
@@ -145,45 +145,44 @@ public class NhapKho extends AppCompatActivity {
     //-------------------------------------------------------------------------------------
     private void upload() {
         Calendar calendar = Calendar.getInstance();
-        final StorageReference imgUp=storageReference.child(barcode+"/"+calendar.getTimeInMillis()+".png");
-//        img_anhdm.setDrawingCacheEnabled(true);
-//        img_anhdm.buildDrawingCache();
-//        Bitmap bitmap = img_anhdm.getDrawingCache();
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
-//
-//        byte[] data_img = baos.toByteArray();
-//
-//        UploadTask uploadTask = imgUp.putBytes(data_img);
+        final StorageReference imgUp=storageReference.child(barcode+"/"+calendar.getTimeInMillis()+".webp");
 
-//        Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//            @Override
-//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                if (!task.isSuccessful())
-//                    throw task.getException();
-//                return imgUp.getDownloadUrl();
-//            }
-//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Uri> task) {
-//                if (task.isSuccessful()){
-//                    Uri dowloadUri = task.getResult();
+        Bitmap bitmap = arr_img.get(0);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.WEBP,60,baos);
+
+        byte[] data_img = baos.toByteArray();
+
+        UploadTask uploadTask = imgUp.putBytes(data_img);
+
+        Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful())
+                    throw task.getException();
+                return imgUp.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()){
+                    Uri dowloadUri = task.getResult();
+
+//                    item_danhmuc idm = new item_danhmuc(txt_name_dm.getText().toString(),String.valueOf(dowloadUri));
 //
-////                    item_danhmuc idm = new item_danhmuc(txt_name_dm.getText().toString(),String.valueOf(dowloadUri));
-////
-////                    mydata.child("DanhMuc").push().setValue(idm, new DatabaseReference.CompletionListener() {
-////                        @Override
-////                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-////                            if (error==null)
-////                                //Log.d("AAA","Ok");
-////                                Toast.makeText(Activity_Add_Danh_muc.this, "Upload successful", Toast.LENGTH_SHORT).show();
-////                        }
-////                    });
-//                }
-//                else
-//                    Toast.makeText(NhapKho.this, "Upload lỗi", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+//                    mydata.child("DanhMuc").push().setValue(idm, new DatabaseReference.CompletionListener() {
+//                        @Override
+//                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                            if (error==null)
+//                                //Log.d("AAA","Ok");
+//                                Toast.makeText(Activity_Add_Danh_muc.this, "Upload successful", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+                }
+                else
+                    Toast.makeText(NhapKho.this, "Upload lỗi", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -195,6 +194,7 @@ public class NhapKho extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode==Requet_code || requestCode==RESULT_OK && data!=null ){
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            arr_img.add(bitmap);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
