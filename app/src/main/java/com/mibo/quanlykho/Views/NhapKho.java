@@ -1,6 +1,7 @@
 package com.mibo.quanlykho.Views;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mibo.quanlykho.Controllers.ImageAdapter;
+import com.mibo.quanlykho.Models.SQLite;
 import com.mibo.quanlykho.Models.SanPham;
 import com.mibo.quanlykho.Models.phieuNhap;
 import com.mibo.quanlykho.Models.val;
@@ -66,7 +70,11 @@ public class NhapKho extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhap_kho);
+        barcode="yuedfrghjkl";
         anhxa();
+        get_DanhMuc();
+        select_sqlite();
+        get_Time();
 
         List<String> imageList = new ArrayList<>();
         imageList.add("https://haycafe.vn/wp-content/uploads/2021/11/hinh-anh-hoat-hinh-de-thuong-cute-dep-nhat.jpg");
@@ -267,7 +275,6 @@ public class NhapKho extends AppCompatActivity {
                 break;
             }
         }
-
     }
 
     private void up_realtime_phieuNhap(){
@@ -317,5 +324,55 @@ public class NhapKho extends AppCompatActivity {
         xuatXu = findViewById(R.id.edtXuatxu_nhap);
         danhmuc = findViewById(R.id.danhMuc_nhap);
         listAnh = findViewById(R.id.listAnh);
+
+        arr_MaDanhMuc=new ArrayList<>();
+        arr_DanhMuc=new ArrayList<>();
+        arr_img=new ArrayList<>();
+        arrayAdapter_DanhMuc=new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1,arr_DanhMuc);
+        arrayAdapter_DanhMuc.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        danhmuc.setAdapter(arrayAdapter_DanhMuc);
+    }
+
+    private void get_DanhMuc(){
+        myData.child(val.TT_DanhMuc).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                arr_DanhMuc.add(snapshot.getValue().toString());
+                arr_MaDanhMuc.add(snapshot.getKey());
+                arrayAdapter_DanhMuc.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //lấy uid nv
+    public void select_sqlite(){
+        SQLite sqLite = new SQLite(this, val.Name_databasae_sqlite, null, 1);
+        sqLite.QueryData(val.Table_sqlite);
+        Cursor getdata = sqLite.GetData("select * from "+val.Name_table_sqlite);
+        while (getdata.moveToNext()){
+            id_nv=getdata.getColumnName(2);
+            Toast.makeText(this, ""+id_nv, Toast.LENGTH_SHORT).show();
+            idNhanvien.setText("ID nhân viên:  "+id_nv);
+        }
     }
 }
