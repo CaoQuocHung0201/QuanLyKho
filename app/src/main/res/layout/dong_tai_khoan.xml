@@ -10,32 +10,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rouded_corner"
-        android:padding="6dp"
+        android:padding="8dp"
         android:text="Tên"
-        app:layout_constraintEnd_toStartOf="@+id/textView5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnXoaTK"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/btnSuaTK"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edit"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintBottom_toBottomOf="@+id/btnXoaTK"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/btnXoaTK" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/btnXoaTK"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/delete"
         app:layout_constraintBottom_toBottomOf="@+id/tenTK"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/btnSuaTK"
         app:layout_constraintTop_toTopOf="@+id/tenTK" />
 </androidx.constraintlayout.widget.ConstraintLayout>

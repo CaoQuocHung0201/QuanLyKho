@@ -1,19 +1,32 @@
 package com.mibo.quanlykho.Controllers;
 
 import android.content.Context;
+import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mibo.quanlykho.Models.TaiKhoan;
+import com.mibo.quanlykho.R;
+import com.mibo.quanlykho.Views.QuanLyTaiKhoan;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class AdapterTaiKhoan extends BaseAdapter {
-    Context context;
-    private int layout;
+public class AdapterTaikhoan extends BaseAdapter {
+    private QuanLyTaiKhoan context;
     List<TaiKhoan> taiKhoanList;
+    private int layout;
+
+    public AdapterTaikhoan(QuanLyTaiKhoan context,  int layout,List<TaiKhoan> taiKhoanList) {
+        this.context = context;
+        this.taiKhoanList = taiKhoanList;
+        this.layout = layout;
+    }
+
     @Override
     public int getCount() {
         return taiKhoanList.size();
@@ -31,11 +44,37 @@ public class AdapterTaiKhoan extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
+        if(convertView == null){
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView=inflater.inflate(layout,null);
+            viewHolder.tvName = convertView.findViewById(R.id.tenTK);
+            viewHolder.btnSua = convertView.findViewById(R.id.btnSuaTK);
+            viewHolder.btnXoa = convertView.findViewById(R.id.btnXoaTK);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        TaiKhoan taiKhoan = taiKhoanList.get(position);
+        viewHolder.tvName.setText(taiKhoan.getName());
+
+        viewHolder.btnSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.DialogSua(taiKhoan.getUid());
+            }
+        });
+        viewHolder.btnXoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.DialogXoa(taiKhoan.getUid());
+            }
+        });
 
         return convertView;
     }
-
-    public class ViewHolder {
-
+    private class ViewHolder{
+        TextView tvName, btnSua,btnXoa;
     }
 }

@@ -1,73 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/txt_signin_local"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập tên người dùng"
-            android:id="@+id/txt_signin_tenngdung"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập tên năm sinh"
-            android:id="@+id/txt_signin_old"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập địa chỉ"
-            android:id="@+id/txt_signin_local"/>
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Nhập địa chỉ"
+        android:padding="7dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_old"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_old"
+        app:layout_constraintTop_toBottomOf="@+id/txt_signin_old" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập tài khoản"
-            android:id="@+id/txt_signin_email"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập mật khẩu"
-            android:id="@+id/txt_signin_pass"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập lại mật khẩu"
-            android:id="@+id/txt_signin_lai_pass"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Admin"
-            android:id="@+id/cbo_signin_quyen"
-            android:layout_gravity="center"
-            android:textSize="20sp"/>
+    <EditText
+        android:id="@+id/txt_signin_lai_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Nhập lại mật khẩu"
+        android:padding="7dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_pass"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_pass"
+        app:layout_constraintTop_toBottomOf="@+id/txt_signin_pass" />
 
-    </LinearLayout>
-    <LinearLayout
+    <EditText
+        android:id="@+id/txt_signin_tenngdung"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Nhập tên người dùng"
+        android:padding="7dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txt_signin_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Nhập tài khoản"
+        android:padding="7dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_local"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_local"
+        app:layout_constraintTop_toBottomOf="@+id/txt_signin_local" />
+
+    <EditText
+        android:id="@+id/txt_signin_old"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Nhập tên năm sinh"
+        android:padding="7dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_tenngdung"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_tenngdung"
+        app:layout_constraintTop_toBottomOf="@+id/txt_signin_tenngdung" />
+
+    <EditText
+        android:id="@+id/txt_signin_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Nhập mật khẩu"
+        android:padding="7dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_email"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_email"
+        app:layout_constraintTop_toBottomOf="@+id/txt_signin_email" />
+
+    <CheckBox
+        android:id="@+id/cbo_signin_quyen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="xác nhận"
-            android:id="@+id/btn_signin_xn"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hủy"
-            android:id="@+id/btn_signin_huy"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Admin"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_lai_pass"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_lai_pass"
+        app:layout_constraintTop_toBottomOf="@+id/txt_signin_lai_pass" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_signin_huy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Hủy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_signin_xn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_signin_xn"
+        app:layout_constraintTop_toBottomOf="@+id/btn_signin_xn" />
+
+    <Button
+        android:id="@+id/btn_signin_xn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="xác nhận"
+        app:layout_constraintEnd_toEndOf="@+id/txt_signin_lai_pass"
+        app:layout_constraintStart_toStartOf="@+id/txt_signin_lai_pass"
+        app:layout_constraintTop_toBottomOf="@+id/cbo_signin_quyen" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
