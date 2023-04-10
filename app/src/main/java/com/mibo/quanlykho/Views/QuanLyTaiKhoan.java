@@ -83,6 +83,7 @@ public class QuanLyTaiKhoan extends AppCompatActivity {
                         TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                         arrTaikhoan.add(taiKhoan);
                         adapterTaikhoan.notifyDataSetChanged();
+                        Log.d("BBB", snapshot.toString());
                     }
 
                     @Override

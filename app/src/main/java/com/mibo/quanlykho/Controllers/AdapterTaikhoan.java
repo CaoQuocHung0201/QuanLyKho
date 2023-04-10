@@ -1,7 +1,6 @@
 package com.mibo.quanlykho.Controllers;
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import com.mibo.quanlykho.Models.TaiKhoan;
 import com.mibo.quanlykho.R;
 import com.mibo.quanlykho.Views.QuanLyTaiKhoan;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
 

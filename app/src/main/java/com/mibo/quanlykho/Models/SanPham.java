@@ -16,6 +16,11 @@ public class SanPham {
 
     public SanPham(){}
 
+    public SanPham(String name,int soLuong) {
+        Name = name;
+        SoLuong = soLuong;
+    }
+
     public SanPham(String name, int giaNhap, int soLuong, String HSD, String img, String thuongHieu, String xuatXu) {
         Name = name;
         GiaNhap = giaNhap;
@@ -98,4 +103,19 @@ public class SanPham {
         XuatXu = xuatXu;
     }
 
+    public String getNgayNhap() {
+        return NgayNhap;
+    }
+
+    public void setNgayNhap(String ngayNhap) {
+        NgayNhap = ngayNhap;
+    }
+
+    public String getNgayXuat() {
+        return NgayXuat;
+    }
+
+    public void setNgayXuat(String ngayXuat) {
+        NgayXuat = ngayXuat;
+    }
 }

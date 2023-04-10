@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toStartOf="@+id/soLuong_dongtonkho"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TenSP_dongtonkho" />
+        app:layout_constraintTop_toBottomOf="@+id/ngaynhap_dongtonkho" />
 
     <EditText
         android:id="@+id/soLuong_dongtonkho"
@@ -35,10 +35,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tenSP_dongtonkho"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/TenSP_dongtonkho" />
+        app:layout_constraintTop_toTopOf="@+id/ngaynhap_dongtonkho" />
 
     <EditText
-        android:id="@+id/TenSP_dongtonkho"
+        android:id="@+id/ngaynhap_dongtonkho"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
