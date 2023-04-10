@@ -52,7 +52,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class NhapKho extends AppCompatActivity {
-    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap;
+    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap, btnQuaylai;
     EditText Ten,Gia,soLuong,HSD,thuongHieu,xuatXu;
     Spinner danhmuc;
     RecyclerView listAnh;
@@ -141,6 +141,13 @@ public class NhapKho extends AppCompatActivity {
                 for (int i = 0; i < arr_img.size(); i++) {
                     upload(i);
                 }
+            }
+        });
+
+        btnQuaylai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -349,7 +356,7 @@ public class NhapKho extends AppCompatActivity {
         xuatXu = findViewById(R.id.edtXuatxu_nhap);
         danhmuc = findViewById(R.id.danhMuc_nhap);
         listAnh = findViewById(R.id.listAnh);
-
+        btnQuaylai = findViewById(R.id.btnQuaylai_nhap);
         arr_img = new ArrayList<>();
         imageList = new ArrayList<>();
         arr_MaDanhMuc=new ArrayList<>();
@@ -358,6 +365,7 @@ public class NhapKho extends AppCompatActivity {
         arrayAdapter_DanhMuc=new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1,arr_DanhMuc);
         arrayAdapter_DanhMuc.setDropDownViewResource(android.R.layout.simple_list_item_1);
         danhmuc.setAdapter(arrayAdapter_DanhMuc);
+
     }
 
     private void get_DanhMuc(){

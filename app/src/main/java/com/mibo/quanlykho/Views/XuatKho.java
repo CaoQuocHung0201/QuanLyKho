@@ -28,7 +28,7 @@ import java.util.UUID;
 
 public class XuatKho extends AppCompatActivity {
 
-    TextView idNhanvien, barCode,Ten, thoiGian,soLuongton, btnXuat;
+    TextView idNhanvien, barCode,Ten, thoiGian,soLuongton, btnXuat, btnQuaylai;
     EditText Gia,soLuongxuat;
 
     String id_phieuXuat="",id_nv="",barcode="",thoigian="",ten_sp="",danh_muc="",hsd="",thuonghieu="",xuatxu="",yyyy="",MM="",dd="",hh="",mm="";
@@ -59,6 +59,12 @@ public class XuatKho extends AppCompatActivity {
                     up_realtime_slSP();
                     up_realtime_phieuXuat();
                 }
+            }
+        });
+        btnQuaylai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -142,6 +148,7 @@ public class XuatKho extends AppCompatActivity {
         btnXuat = findViewById(R.id.btnXuat);
         Gia = findViewById(R.id.edtGia_xuat);
         soLuongxuat = findViewById(R.id.edtSoluong_xuat);
+        btnQuaylai = findViewById(R.id.btnQuaylai_xuat);
     }
 
     private void get_Time(){

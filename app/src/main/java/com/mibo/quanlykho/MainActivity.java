@@ -10,11 +10,12 @@ import android.widget.TextView;
 import com.mibo.quanlykho.Views.NhapKho;
 import com.mibo.quanlykho.Views.QuanLyTaiKhoan;
 import com.mibo.quanlykho.Views.QuetMa;
+import com.mibo.quanlykho.Views.TonKho;
 import com.mibo.quanlykho.Views.XuatKho;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView btnNhap,btnXuat,btnQLTK,btnQLKho;
+    TextView btnNhap,btnXuat,btnQLTK,btnQLKho,btnThoat;
     String id="";
 
     @Override
@@ -44,7 +45,13 @@ public class MainActivity extends AppCompatActivity {
         btnQLKho.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(MainActivity.this, TonKho.class));
+            }
+        });
+        btnThoat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -55,5 +62,6 @@ public class MainActivity extends AppCompatActivity {
         btnXuat = findViewById(R.id.btnChonXuat);
         btnQLTK = findViewById(R.id.btnQLTK);
         btnQLKho = findViewById(R.id.btnQLKho);
+        btnThoat = findViewById(R.id.btnThoat_trangchu);
     }
 }
