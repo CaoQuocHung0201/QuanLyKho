@@ -19,7 +19,7 @@ public class RandomStringExmple {
     /**
      * Random string with a-zA-Z0-9, not included special characters
      */
-    public String randomAlphaNumeric(int numberOfCharactor) {
+    public static String randomAlphaNumeric(int numberOfCharactor) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < numberOfCharactor; i++) {
             int number = randomNumber(0, ALPHA_NUMERIC.length() - 1);
