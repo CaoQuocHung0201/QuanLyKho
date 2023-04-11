@@ -2,49 +2,24 @@ package com.mibo.quanlykho.Models;
 
 public class SanPham {
 
-    public static String ngNhap="NgayNhap", ngXuat="NgayXuat",sl="soLuong";
+    public static String ngNhap="NgayNhap", ngXuat="NgayXuat",sl="soLuong",Img="Img";
 
     private String Name;
     private int GiaNhap;
     private int SoLuong;
     private String HSD;
-    private String Img;
     private String ThuongHieu;
     private String XuatXu;
-    private String NgayNhap;
-    private String NgayXuat;
 
     public SanPham(){}
 
-    public SanPham(String name,int soLuong) {
-        Name = name;
-        SoLuong = soLuong;
-    }
-
-    public SanPham(String name, int giaNhap, int soLuong, String HSD, String img, String thuongHieu, String xuatXu) {
+    public SanPham(String name, int giaNhap, int soLuong, String HSD, String thuongHieu, String xuatXu) {
         Name = name;
         GiaNhap = giaNhap;
         SoLuong = soLuong;
         this.HSD = HSD;
-        Img = img;
         ThuongHieu = thuongHieu;
         XuatXu = xuatXu;
-    }
-
-    public static String getNgNhap() {
-        return ngNhap;
-    }
-
-    public static void setNgNhap(String ngNhap) {
-        SanPham.ngNhap = ngNhap;
-    }
-
-    public static String getNgXuat() {
-        return ngXuat;
-    }
-
-    public static void setNgXuat(String ngXuat) {
-        SanPham.ngXuat = ngXuat;
     }
 
     public String getName() {
@@ -79,14 +54,6 @@ public class SanPham {
         this.HSD = HSD;
     }
 
-    public String getImg() {
-        return Img;
-    }
-
-    public void setImg(String img) {
-        Img = img;
-    }
-
     public String getThuongHieu() {
         return ThuongHieu;
     }
@@ -103,19 +70,4 @@ public class SanPham {
         XuatXu = xuatXu;
     }
 
-    public String getNgayNhap() {
-        return NgayNhap;
-    }
-
-    public void setNgayNhap(String ngayNhap) {
-        NgayNhap = ngayNhap;
-    }
-
-    public String getNgayXuat() {
-        return NgayXuat;
-    }
-
-    public void setNgayXuat(String ngayXuat) {
-        NgayXuat = ngayXuat;
-    }
 }

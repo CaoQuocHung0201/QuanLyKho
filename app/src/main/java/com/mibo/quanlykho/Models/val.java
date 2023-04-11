@@ -30,4 +30,7 @@ public class val {
 
     public static String admin="admin";
     public static String nv="nv";
+
+    public static int My_permission_request=1;
+    public static String err_PERMISSION="Yêu cầu cấp quyền truy cập vào bộ nhớ.";
 }

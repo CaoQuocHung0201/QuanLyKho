@@ -2,12 +2,15 @@ package com.mibo.quanlykho.Views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,14 +18,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,11 +43,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mibo.quanlykho.Controllers.ImageAdapter;
+import com.mibo.quanlykho.Controllers.RandomStringExmple;
 import com.mibo.quanlykho.Models.SQLite;
 import com.mibo.quanlykho.Models.SanPham;
 import com.mibo.quanlykho.Models.phieuNhap;
 import com.mibo.quanlykho.Models.val;
 import com.mibo.quanlykho.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,7 +63,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class NhapKho extends AppCompatActivity {
-    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap, btnQuaylai;
+    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap,btnThemdanhmuc;
     EditText Ten,Gia,soLuong,HSD,thuongHieu,xuatXu;
     Spinner danhmuc;
     RecyclerView listAnh;
@@ -71,6 +82,8 @@ public class NhapKho extends AppCompatActivity {
     int Requet_code=123;
     List<String> imageList;
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +95,7 @@ public class NhapKho extends AppCompatActivity {
         get_Time();
 
         //get data nếu trùng barcode
-//        get_sanpham();
+        get_sanpham();
 
         danhmuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -104,6 +117,54 @@ public class NhapKho extends AppCompatActivity {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 ActivityCompat.requestPermissions(NhapKho.this,new String[]{Manifest.permission.CAMERA},Requet_code);
                 startActivityForResult(intent,Requet_code);
+            }
+        });
+
+        btnThemdanhmuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View alertLayout = inflater.inflate(R.layout.dialog_add_danhmuc, null);
+                AlertDialog.Builder alert = new AlertDialog.Builder(NhapKho.this);
+                alert.setCancelable(false);
+                alert.setTitle("Thêm danh mục mới");
+                alert.setView(alertLayout);
+
+                dialog = alert.create();
+                EditText txt_name=alertLayout.findViewById(R.id.txt_add_name_dm);
+                Button btn_add_dm_xn=alertLayout.findViewById(R.id.btn_add_dm_xn);
+                Button btn_add_dm_huy=alertLayout.findViewById(R.id.btn_add_dm_huy);
+
+                btn_add_dm_xn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String str_name=txt_name.getText().toString().trim();
+                        if (str_name.isEmpty()){
+                            Toast.makeText(NhapKho.this, "Yêu cầu nhập tên danh mục", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            String maDM=RandomStringExmple.randomAlphaNumeric(5);
+                            myData.child(val.TT_DanhMuc).child(maDM).setValue(str_name).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(NhapKho.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                        dialog.cancel();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+
+                btn_add_dm_huy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -143,13 +204,6 @@ public class NhapKho extends AppCompatActivity {
                 }
             }
         });
-
-        btnQuaylai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     //  upload hinh
@@ -157,6 +211,7 @@ public class NhapKho extends AppCompatActivity {
 
     private void setAnh(){
         imageList.add(imageFilePath);
+//        imageList.add("https://firebasestorage.googleapis.com/v0/b/app-quanl-ly-kho.appspot.com/o/yuedfrghjkl%2F1680944204890.webp?alt=media&token=df081e0d-9b69-4120-a201-511c83490a7f");
         ImageAdapter adapter = new ImageAdapter(this, imageList);
         listAnh.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         adapter.notifyDataSetChanged();
@@ -186,25 +241,12 @@ public class NhapKho extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
                     Uri dowloadUri = task.getResult();
-
-//                    item_danhmuc idm = new item_danhmuc(txt_name_dm.getText().toString(),String.valueOf(dowloadUri));
-//
-//                    mydata.child("DanhMuc").push().setValue(idm, new DatabaseReference.CompletionListener() {
-//                        @Override
-//                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-//                            if (error==null)
-//                                //Log.d("AAA","Ok");
-                                Toast.makeText(NhapKho.this, "Upload successful", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
+                    myData.child(val.Kho).child(danh_muc).child(barcode).child(SanPham.Img).child(String.valueOf(i)).setValue(String.valueOf(dowloadUri));
                 }
                 else
                     Toast.makeText(NhapKho.this, "Upload lỗi", Toast.LENGTH_SHORT).show();
             }
         });
-//        for (int i = 0; i < arr_img.size(); i++) {
-//
-//        }
 
 
     }
@@ -273,6 +315,25 @@ public class NhapKho extends AppCompatActivity {
 
                     }
                 });
+
+                myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).child(SanPham.Img).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getValue()!=null){
+                            String link=snapshot.getValue().toString();
+                            int l=link.length();
+                            String str=link.substring(1,l-1);
+
+                            imageFilePath=str;
+                            setAnh();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override
@@ -320,7 +381,7 @@ public class NhapKho extends AppCompatActivity {
     }
 
     private void up_realtime_SP(){
-        SanPham sp=new SanPham(ten_sp,gia,soluong,hsd,"",thuonghieu,xuatxu);
+        SanPham sp=new SanPham(ten_sp,gia,soluong,hsd,thuonghieu,xuatxu);
         myData.child(val.Kho).child(danh_muc).child(barcode).setValue(sp);
         myData.child(val.Kho).child(val.Local_sp).child(danh_muc).setValue(barcode);
     }
@@ -356,7 +417,8 @@ public class NhapKho extends AppCompatActivity {
         xuatXu = findViewById(R.id.edtXuatxu_nhap);
         danhmuc = findViewById(R.id.danhMuc_nhap);
         listAnh = findViewById(R.id.listAnh);
-        btnQuaylai = findViewById(R.id.btnQuaylai_nhap);
+        btnThemdanhmuc=findViewById(R.id.textView10);
+
         arr_img = new ArrayList<>();
         imageList = new ArrayList<>();
         arr_MaDanhMuc=new ArrayList<>();
@@ -365,7 +427,6 @@ public class NhapKho extends AppCompatActivity {
         arrayAdapter_DanhMuc=new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1,arr_DanhMuc);
         arrayAdapter_DanhMuc.setDropDownViewResource(android.R.layout.simple_list_item_1);
         danhmuc.setAdapter(arrayAdapter_DanhMuc);
-
     }
 
     private void get_DanhMuc(){
