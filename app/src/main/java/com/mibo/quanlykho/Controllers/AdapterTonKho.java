@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mibo.quanlykho.Models.SanPham;
 import com.mibo.quanlykho.R;
@@ -60,11 +61,11 @@ public class AdapterTonKho extends BaseAdapter {
         SanPham sanPham = sanPhamList.get(position);
         viewHolder.tenSP.setText(sanPham.getName());
         //viewHolder.ngayNhapDauTien.setText(sanPham.getNgayNhap());
-        viewHolder.soLuong.setText(sanPham.getSoLuong());
+        viewHolder.soLuong.setText(String.valueOf(sanPham.getSoLuong()));
         return convertView;
     }
 
     private class ViewHolder{
-        EditText ngayNhapDauTien, tenSP, soLuong;
+        TextView ngayNhapDauTien, tenSP, soLuong;
     }
 }

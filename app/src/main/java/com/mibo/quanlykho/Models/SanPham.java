@@ -13,6 +13,11 @@ public class SanPham {
 
     public SanPham(){}
 
+    public SanPham(String name, int soLuong) {
+        Name = name;
+        SoLuong = soLuong;
+    }
+
     public SanPham(String name, int giaNhap, int soLuong, String HSD, String thuongHieu, String xuatXu) {
         Name = name;
         GiaNhap = giaNhap;
