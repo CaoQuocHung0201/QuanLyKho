@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/denNgay" />
 
-    <EditText
+    <TextView
         android:id="@+id/tuNgay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tieuDe" />
 
-    <EditText
+    <TextView
         android:id="@+id/denNgay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -51,23 +51,24 @@ public class TonKho extends AppCompatActivity {
         anhxa();
         get_DanhMuc();
         AddDataList();
-        adapterTonKho = new AdapterTonKho(this, R.layout.dong_ton_kho, listSanpham);
-        listTonkho.setAdapter(adapterTonKho);
 
-        danhMuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (str.isEmpty()){
-                    str="1";
-                }else {
-                    AddDataList_DanhMuc(String.valueOf(arr_MaDanhMuc.get(i)));
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+//        danhMuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                listSanpham.clear();
+//                adapterTonKho.notifyDataSetChanged();
+//                if (str.isEmpty()){
+//                    str="1";
+//                }else {
+//                    AddDataList_DanhMuc(String.valueOf(arr_MaDanhMuc.get(i)));
+//                }
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         listTonkho.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,6 +85,27 @@ public class TonKho extends AppCompatActivity {
                 finish();
             }
         });
+
+//        myData.child(val.Kho).child("GD").child("0123456789").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.getValue()!=null){
+//                    SanPham sanPham = snapshot.getValue(SanPham.class);
+//                    listSanpham.add(new SanPham(sanPham.getName(),sanPham.getGiaNhap(),sanPham.getSoLuong(),"","",""));
+//                    arr_barcode.add(snapshot.getKey());
+//                    adapterTonKho.notifyDataSetChanged();
+//                    Log.d("AAA",sanPham.getName()+"");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+
+        listTonkho.setAdapter(adapterTonKho);
     }
 
     public void AddDataList_DanhMuc(String madm){
@@ -94,13 +116,16 @@ public class TonKho extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Barcode[0] = snapshot.getKey();
+                Log.d("AAA",Barcode[0]);
                 myData.child(val.Kho).child(maDM[0]).child(Barcode[0]).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        SanPham sanPham = snapshot.getValue(SanPham.class);
-                        listSanpham.add(new SanPham(sanPham.getName(),sanPham.getSoLuong()));
-                        arr_barcode.add(snapshot.getKey());
-                        adapterTonKho.notifyDataSetChanged();
+                        if (snapshot.getValue()!=null){
+                            SanPham sanPham = snapshot.getValue(SanPham.class);
+                            listSanpham.add(new SanPham(sanPham.getName(),sanPham.getGiaNhap(),sanPham.getSoLuong(),"","",""));
+                            arr_barcode.add(snapshot.getKey());
+                            adapterTonKho.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -137,19 +162,24 @@ public class TonKho extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 maDM[0]=snapshot.getKey();
+                Log.d("AAA",maDM[0]);
                 // loại local
                 if (!maDM[0].equals(val.Local_sp)) {
                     myData.child(val.Kho).child(maDM[0]).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             Barcode[0] = snapshot.getKey();
-                            myData.child(val.Kho).child(maDM[0]).child(Barcode[0]).addValueEventListener(new ValueEventListener() {
+                            Log.d("AAA",Barcode[0]);
+                            myData.child(val.Kho).child(maDM[0]).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    SanPham sanPham = snapshot.getValue(SanPham.class);
-                                    listSanpham.add(new SanPham(sanPham.getName(),sanPham.getSoLuong()));
-                                    arr_barcode.add(snapshot.getKey());
-                                    adapterTonKho.notifyDataSetChanged();
+                                    if (snapshot.getValue()!=null){
+                                        SanPham sanPham = snapshot.getValue(SanPham.class);
+                                        listSanpham.add(new SanPham(sanPham.getName(),sanPham.getGiaNhap(),sanPham.getSoLuong(),"","",""));
+                                        arr_barcode.add(snapshot.getKey());
+                                        Log.d("AAA",sanPham.getName());
+                                        adapterTonKho.notifyDataSetChanged();
+                                    }
                                 }
 
                                 @Override
@@ -180,6 +210,7 @@ public class TonKho extends AppCompatActivity {
                         }
                     });
                 }
+
 
 
             }
@@ -242,6 +273,7 @@ public class TonKho extends AppCompatActivity {
         listTonkho =findViewById(R.id.listTonkho);
         danhMuc = findViewById(R.id.danhmuctonkho);
         listSanpham = new ArrayList<>();
+        adapterTonKho = new AdapterTonKho(this, R.layout.dong_ton_kho, listSanpham);
 
         arr_barcode=new ArrayList();
         arr_DanhMuc=new ArrayList();

@@ -27,6 +27,11 @@ public class SanPham {
         XuatXu = xuatXu;
     }
 
+    public SanPham(String name, int soLuong) {
+        Name = name;
+        SoLuong = soLuong;
+    }
+
     public String getName() {
         return Name;
     }

@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -37,30 +38,28 @@ import java.util.Locale;
 
 public class LichSuNhap_Xuat extends AppCompatActivity {
     TextView tieude, btnLoc, btnXuatAll, btnQuaylai;
-    EditText tuNgay, denNgay; String tu_yyyy="",tu_MM="",tu_dd="",den_yyyy="",den_MM="",den_dd="";
+    TextView tuNgay, denNgay;
+    String tu_yyyy="",tu_MM="",tu_dd="",den_yyyy="",den_MM="",den_dd="";
 
     AdapterLichSu adapterLichSu;
     ListView listLichsu;
     ArrayList<Thong_tin_lich_su_sp> listTT;
 
-    String barcode=ThongTinChiTiet.bc,tensp=ThongTinChiTiet.tsp,yyyy="",MM="",dd="",hh="",mm="";
+    String barcode=ThongTinChiTiet.bc,tensp=ThongTinChiTiet.tsp,yyyy="2023",MM="04",dd="08",hh="",mm="";
 
     String name="Tên sản phẩm: ",time="Ngày nhập: ", sl="Số lượng nhập: ",gia="Giá nhập: ",nv="Nhân viên nhập: ",danhMuc="ĐT";
 
     DatabaseReference myData= val.databaseReference;
+
+    int i_tu_yyyy=0,i_tu_MM=0,i_tu_dd=0,i_den_yyyy=0,i_den_MM=0,i_den_dd=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lich_su_nhap_xuat);
         anhxa();
-        get_Time();
-        load_all_lich_su_nhap();
-
-
+//        get_Time();
         listLichsu.setAdapter(adapterLichSu);
-
-//        Toast.makeText(this, tensp+"   "+barcode, Toast.LENGTH_SHORT).show();
 
         tuNgay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +77,15 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
         btnLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tuNgay.getText().toString().isEmpty()&&denNgay.getText().toString().isEmpty())
+                if (tuNgay.getText().toString().isEmpty()||denNgay.getText().toString().isEmpty())
                     Toast.makeText(LichSuNhap_Xuat.this, "Dữ liệu không để trống", Toast.LENGTH_SHORT).show();
+                else if (i_tu_dd>i_den_dd && i_tu_MM==i_den_MM && i_tu_yyyy==i_den_yyyy)
+                    Toast.makeText(LichSuNhap_Xuat.this, "Dữ liệu không hợp lệ", Toast.LENGTH_SHORT).show();
                 else {
-                    Toast.makeText(LichSuNhap_Xuat.this, tu_dd+"/"+tu_MM+"/"+tu_yyyy+"\n"+den_dd+"/"+den_MM+"/"+den_yyyy+"\n", Toast.LENGTH_SHORT).show();
+                    listTT.clear();
+                    adapterLichSu.notifyDataSetChanged();
+//                    load_lich_su_nhap(tu_yyyy,tu_MM,tu_dd);
+                    get_idPhieuNhap();
                 }
             }
         });
@@ -93,77 +97,34 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
-    // lấy ngày tháng
-    private void set_time(String str) {
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String str_yyyy=String.valueOf(year);
-                String str_MM=String.valueOf(month);
-                if (month<10)
-                    str_MM="0"+month;
-
-                String str_dd=String.valueOf(dayOfMonth);
-                if (dayOfMonth<10)
-                    str_dd="0"+dayOfMonth;
-
-                if (str.isEmpty()) {
-                    tuNgay.setText(str_dd + "/" + str_MM + "/" + str_yyyy);
-                    tu_yyyy=str_yyyy;
-                    tu_MM=str_MM;
-                    tu_dd=str_dd;
-                }
-                else {
-                    denNgay.setText(str_dd + "/" + str_MM + "/" + str_yyyy);
-                    den_yyyy=str_yyyy;
-                    den_MM=str_MM;
-                    den_dd=str_dd;
-                }
-            }
-        },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-
-        datePickerDialog.setCancelable(false);
-        datePickerDialog.show();
-    }
-
-    private void load_all_lich_su_nhap(){
-        myData.child(val.TT_Nhap).child(danhMuc).child(yyyy).child(MM).child(dd).addChildEventListener(new ChildEventListener() {
+    private void get_idPhieuNhap(){
+//        tu_yyyy="2023";tu_MM="04";tu_dd="08";den_yyyy="2025";den_MM="06";den_dd="31";
+        myData.child(val.Kho).child(danhMuc).child(barcode).child(SanPham.ngNhap).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                myData.child(val.TT_Nhap).child(danhMuc).child(yyyy).child(MM).child(dd).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getValue()!=null){
-                            phieuNhap pN=snapshot.getValue(phieuNhap.class);
-                            if (pN.getBarCode().equals(barcode)){
-                                final String[] nameNV={""};
-                                //lay ten nv
-                                myData.child(val.TT_Tai_Khoan).child(pN.getNhanVien()).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        TaiKhoan tk=snapshot.getValue(TaiKhoan.class);
-                                        listTT.add(new Thong_tin_lich_su_sp(name+tensp,gia+pN.getGiaNhap()+"  VND",sl+pN.getSoLuong(),time+pN.getNgayNhap(),nv+tk.getName()));
-                                        adapterLichSu.notifyDataSetChanged();
-                                    }
+                String key_yyyy="",key_MM="",key_dd="";
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                key_dd=snapshot.getKey().substring(6,8);
+                key_MM=snapshot.getKey().substring(9,11);
+                key_yyyy=snapshot.getKey().substring(12,snapshot.getKey().length());
 
-                                    }
-                                });
+                int i_key_dd=Integer.valueOf(snapshot.getKey().substring(6,8));
+                int i_key_MM=Integer.valueOf(snapshot.getKey().substring(9,11));
+                int i_key_yyyy=Integer.valueOf(snapshot.getKey().substring(12,snapshot.getKey().length()));
 
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                if (i_tu_dd==i_den_dd && i_tu_MM==i_den_MM && i_tu_yyyy==i_den_yyyy) {// trong ngày
+                    Toast.makeText(LichSuNhap_Xuat.this, "tr", Toast.LENGTH_SHORT).show();
+                    load_ls_dd(tu_yyyy,tu_MM,tu_dd,snapshot.getValue().toString());
+                }
+                else if ((i_key_dd>=i_tu_dd && i_key_MM==i_tu_MM && i_key_yyyy==i_tu_yyyy)//ngày bắt đầu
+                        ||(i_key_dd>=i_tu_dd && i_key_dd<=i_den_dd && i_key_MM<=i_den_MM && i_key_yyyy<=i_den_yyyy)){//ngày kết thúc
+//                    Log.d("AAA",key_dd+"/"+key_MM+"/"+key_yyyy+"   "+snapshot.getValue());
+                    Toast.makeText(LichSuNhap_Xuat.this, "0tr", Toast.LENGTH_SHORT).show();
+                    load_ls_dd(key_yyyy,key_MM,key_dd,snapshot.getValue().toString());
+                }
             }
 
             @Override
@@ -179,6 +140,141 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    // lấy ngày tháng
+    private void set_time(String str) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month=month+1;
+                String str_yyyy=String.valueOf(year);
+                String str_MM=String.valueOf(month);
+                if (month<10)
+                    str_MM="0"+month;
+
+                String str_dd=String.valueOf(dayOfMonth);
+                if (dayOfMonth<10)
+                    str_dd="0"+dayOfMonth;
+
+                if (str.isEmpty()) {
+                    tuNgay.setText(str_dd + "/" + str_MM + "/" + str_yyyy);
+                    tu_yyyy=str_yyyy;
+                    tu_MM=str_MM;
+                    tu_dd=str_dd;
+
+                    i_tu_yyyy=year;
+                    i_tu_MM=month;
+                    i_tu_dd=dayOfMonth;
+
+                }
+                else {
+                    denNgay.setText(str_dd + "/" + str_MM + "/" + str_yyyy);
+                    den_yyyy=str_yyyy;
+                    den_MM=str_MM;
+                    den_dd=str_dd;
+
+                    i_den_yyyy=year;
+                    i_den_MM=month;
+                    i_den_dd=dayOfMonth;
+                }
+            }
+        },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setCancelable(false);
+        datePickerDialog.show();
+    }
+
+//    private void load_ls_yyyy(String stryyyy){
+//        myData.child(val.TT_Nhap).child(danhMuc).child(stryyyy).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+//
+//    private void load_ls_MM(String stryyyy,String strMM){
+//        myData.child(val.TT_Nhap).child(danhMuc).child(stryyyy).child(strMM).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+
+    private void load_ls_dd(String stryyyy,String strMM,String strdd,String id){
+//        snapshot.getKey()
+        myData.child(val.TT_Nhap).child(danhMuc).child(stryyyy).child(strMM).child(strdd).child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue()!=null){
+                    phieuNhap pN=snapshot.getValue(phieuNhap.class);
+                    if (pN.getBarCode().equals(barcode)){
+                        //lay ten nv
+                        myData.child(val.TT_Tai_Khoan).child(pN.getNhanVien()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                TaiKhoan tk=snapshot.getValue(TaiKhoan.class);
+                                listTT.add(new Thong_tin_lich_su_sp(name+tensp,gia+pN.getGiaNhap()+"  VND",sl+pN.getSoLuong(),time+pN.getNgayNhap(),nv+tk.getName()));
+                                adapterLichSu.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                }
             }
 
             @Override
