@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/btnQuaylai_xuat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rouded_corner"

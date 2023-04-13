@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class QuanLyTaiKhoan extends AppCompatActivity {
-    TextView btnThemTK, btnTailai;
+    TextView btnThemTK, btnThoat;
     ListView listTK;
     AlertDialog dialog;
 
@@ -65,6 +65,12 @@ public class QuanLyTaiKhoan extends AppCompatActivity {
                 DialogThem();
             }
         });
+        btnThoat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void AddDataList(){
@@ -77,6 +83,7 @@ public class QuanLyTaiKhoan extends AppCompatActivity {
                         TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                         arrTaikhoan.add(taiKhoan);
                         adapterTaikhoan.notifyDataSetChanged();
+                        Log.d("BBB", snapshot.toString());
                     }
 
                     @Override
@@ -306,6 +313,7 @@ public class QuanLyTaiKhoan extends AppCompatActivity {
         btnThemTK = findViewById(R.id.btnThemTK);
         listTK = findViewById(R.id.listTK);
         arrTaikhoan = new ArrayList<>();
+        btnThoat = findViewById(R.id.btnQuaylai);
 
     }
 }

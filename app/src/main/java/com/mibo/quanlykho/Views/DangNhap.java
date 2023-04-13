@@ -37,7 +37,7 @@ public class DangNhap extends AppCompatActivity {
 
     SQLite sqLite = new SQLite(this, val.Name_databasae_sqlite, null, 1);
 
-    TextView btnDangNhap;
+    TextView btnDangNhap, btnThoat;
     EditText edtTK,edtMK;
     CheckBox luuDN;
     SharedPreferences sharedPreferences;
@@ -151,9 +151,17 @@ public class DangNhap extends AppCompatActivity {
             }
         });
 
+        btnThoat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
     private void anhxa(){
         btnDangNhap = findViewById(R.id.btnDangNhap);
+        btnThoat = findViewById(R.id.btnThoat);
         edtTK = findViewById(R.id.edtTK);
         edtMK = findViewById(R.id.edtMK);
         luuDN = findViewById(R.id.checkBox);

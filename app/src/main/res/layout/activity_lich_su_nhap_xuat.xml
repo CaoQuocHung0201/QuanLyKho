@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.LichSuNhap_Xuat">
+
+    <TextView
+        android:id="@+id/btnXuatAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rouded_corner"
+        android:backgroundTint="#0078e6"
+        android:padding="6dp"
+        android:text="XUẤT PDF TẤT CẢ"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnQuaylai_lichsu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listAnh"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/btnQuaylai_lichsu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rouded_corner"
+        android:backgroundTint="#0078e6"
+        android:padding="6dp"
+        android:text="QUAY LẠI"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listAnh"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/btnLocNgay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rouded_corner"
+        android:backgroundTint="#0078e6"
+        android:padding="6dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="LỌC"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/denNgay" />
+
+    <EditText
+        android:id="@+id/tuNgay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Từ ngày"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tieuDe" />
+
+    <EditText
+        android:id="@+id/denNgay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rouded_corner"
+        android:hint="Đến ngày"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnLocNgay"
+        app:layout_constraintTop_toTopOf="@+id/tuNgay" />
+
+    <TextView
+        android:id="@+id/tieuDe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="LỊCH SỬ"
+        android:textColor="#0078e6"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listLichSu"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rouded_corner"
+        app:layout_constraintBottom_toTopOf="@+id/btnXuatAll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/denNgay" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đến"
+        app:layout_constraintBottom_toBottomOf="@+id/tuNgay"
+        app:layout_constraintEnd_toStartOf="@+id/denNgay"
+        app:layout_constraintStart_toEndOf="@+id/tuNgay"
+        app:layout_constraintTop_toTopOf="@+id/tuNgay" />
+</androidx.constraintlayout.widget.ConstraintLayout>
