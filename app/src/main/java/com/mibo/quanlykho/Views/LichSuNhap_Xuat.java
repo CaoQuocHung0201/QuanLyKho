@@ -81,7 +81,7 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
                 if (tuNgay.getText().toString().isEmpty()&&denNgay.getText().toString().isEmpty())
                     Toast.makeText(LichSuNhap_Xuat.this, "Dữ liệu không để trống", Toast.LENGTH_SHORT).show();
                 else {
-                    Toast.makeText(LichSuNhap_Xuat.this, tu_dd+"/"+tu_MM+"/"+tu_yyyy+"\n"+den_dd+"/"+den_MM+"/"+den_yyyy, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LichSuNhap_Xuat.this, tu_dd+"/"+tu_MM+"/"+tu_yyyy+"\n"+den_dd+"/"+den_MM+"/"+den_yyyy+"\n", Toast.LENGTH_SHORT).show();
                 }
             }
         });
