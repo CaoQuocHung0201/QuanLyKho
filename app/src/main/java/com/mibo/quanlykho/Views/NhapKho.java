@@ -63,7 +63,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class NhapKho extends AppCompatActivity {
-    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap,btnThemdanhmuc;
+    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap,btnThemdanhmuc, btnQuaylai;
     EditText Ten,Gia,soLuong,HSD,thuongHieu,xuatXu;
     Spinner danhmuc;
     RecyclerView listAnh;
@@ -88,15 +88,21 @@ public class NhapKho extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhap_kho);
-        barcode="yuedfrghjkl";
         anhxa();
         get_DanhMuc();
-        select_sqlite();
         get_Time();
+
+//        barcode ="yuedfrghjkl";
 
         //get data nếu trùng barcode
         get_sanpham();
 
+        btnQuaylai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         danhmuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -171,34 +177,34 @@ public class NhapKho extends AppCompatActivity {
         btnNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                get_Values();
-//                if (exist==false) {
-//                    up_realtime_SP();
-//                }
-//                else {
-//                    final int[] count={0};
-//                    myData.child(val.Kho).child(danh_muc).child(barcode).addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            SanPham sp=snapshot.getValue(SanPham.class);
-//
-//                            count[0]=count[0]+1;
-//                            if (count[0]==1) {
-//                                inventory=sp.getSoLuong()+soluong;
-//                                up_realtime_slSP();
-//                            }
-//
-//                            Log.d("AAA",count[0]+"");
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                        }
-//                    });
-//
-//                }
-//                up_realtime_phieuNhap();
+                get_Values();
+                if (exist==false) {
+                    up_realtime_SP();
+                }
+                else {
+                    final int[] count={0};
+                    myData.child(val.Kho).child(danh_muc).child(barcode).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            SanPham sp=snapshot.getValue(SanPham.class);
+
+                            count[0]=count[0]+1;
+                            if (count[0]==1) {
+                                inventory=sp.getSoLuong()+soluong;
+                                up_realtime_slSP();
+                            }
+
+                            Log.d("AAA",count[0]+"");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+                up_realtime_phieuNhap();
                 for (int i = 0; i < arr_img.size(); i++) {
                     upload(i);
                 }
@@ -291,49 +297,51 @@ public class NhapKho extends AppCompatActivity {
 
     private void get_sanpham() {
         myData.child(val.Kho).child(val.Local_sp).child(barcode).addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                danh_muc=snapshot.getValue().toString();
-                myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getValue()!=null){
-                            SanPham sp=snapshot.getValue(SanPham.class);
-                            ten_sp=sp.getName();
-                            gia=sp.getGiaNhap();
-                            hsd=sp.getHSD();
-                            thuonghieu=sp.getThuongHieu();
-                            xuatxu=sp.getXuatXu();
-                            exist=true;
-                            set_Values();
+                if (snapshot.getValue()!=null) {
+                    danh_muc = snapshot.getValue().toString();
+//                    Toast.makeText(NhapKho.this, "" + snapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
+                    myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.getValue() != null) {
+                                SanPham sp = snapshot.getValue(SanPham.class);
+                                ten_sp = sp.getName();
+                                gia = sp.getGiaNhap();
+                                hsd = sp.getHSD();
+                                thuonghieu = sp.getThuongHieu();
+                                xuatxu = sp.getXuatXu();
+                                exist = true;
+                                set_Values();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-
-                myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).child(SanPham.Img).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getValue()!=null){
-                            String link=snapshot.getValue().toString();
-                            int l=link.length();
-                            String str=link.substring(1,l-1);
-
-                            imageFilePath=str;
-                            setAnh();
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).child(SanPham.Img).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.getValue() != null) {
+                                String link = snapshot.getValue().toString();
+                                int l = link.length();
+                                String str = link.substring(1, l - 1);
 
-                    }
-                });
+                                imageFilePath = str;
+                                setAnh();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
             }
 
             @Override
@@ -354,7 +362,7 @@ public class NhapKho extends AppCompatActivity {
     }
 
     private void set_Values() {
-        barCode.setText(barcode);
+        barCode.setText("Mã barcode: "+barcode);
         Ten.setText(ten_sp);
         Gia.setText(String.valueOf(gia));
         soLuong.setText(String.valueOf(soluong));
@@ -383,7 +391,7 @@ public class NhapKho extends AppCompatActivity {
     private void up_realtime_SP(){
         SanPham sp=new SanPham(ten_sp,gia,soluong,hsd,thuonghieu,xuatxu);
         myData.child(val.Kho).child(danh_muc).child(barcode).setValue(sp);
-        myData.child(val.Kho).child(val.Local_sp).child(danh_muc).setValue(barcode);
+        myData.child(val.Kho).child(val.Local_sp).child(barcode).setValue(danh_muc);
     }
 
     private void up_realtime_slSP(){
@@ -399,7 +407,7 @@ public class NhapKho extends AppCompatActivity {
         hh = new SimpleDateFormat("hh", Locale.getDefault()).format(new Date());
         mm = new SimpleDateFormat("mm", Locale.getDefault()).format(new Date());
         thoigian=hh+":"+mm+":"+dd+":"+MM+":"+yyyy;
-        thoiGian.setText("Thời gian: "+hh+":"+mm+"  "+dd+":"+MM+":"+yyyy);
+        thoiGian.setText("Thời gian: "+hh+":"+mm+" - "+dd+":"+MM+":"+yyyy);
     }
 
 
@@ -418,6 +426,7 @@ public class NhapKho extends AppCompatActivity {
         danhmuc = findViewById(R.id.danhMuc_nhap);
         listAnh = findViewById(R.id.listAnh);
         btnThemdanhmuc=findViewById(R.id.textView10);
+        btnQuaylai =findViewById(R.id.btnQuaylai_nhap);
 
         arr_img = new ArrayList<>();
         imageList = new ArrayList<>();
@@ -427,6 +436,13 @@ public class NhapKho extends AppCompatActivity {
         arrayAdapter_DanhMuc=new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1,arr_DanhMuc);
         arrayAdapter_DanhMuc.setDropDownViewResource(android.R.layout.simple_list_item_1);
         danhmuc.setAdapter(arrayAdapter_DanhMuc);
+        Intent intent = getIntent();
+        barcode = intent.getStringExtra("barcode");
+        barCode.setText("Mã barcode: "+barcode);
+
+        id_nv = DangNhap.uid;
+        idNhanvien.setText("ID nhân viên: "+id_nv.substring(0,7));
+
     }
 
     private void get_DanhMuc(){

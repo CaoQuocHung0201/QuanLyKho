@@ -46,8 +46,8 @@ public class DangNhap extends AppCompatActivity {
     SharedPreferences.Editor editor;
     ArrayList<TaiKhoan> arrayUser;
 
-    String user="",pass="",uid="",check="";
-
+    String user="",pass="",check="";
+    public static String uid="";
     //FirebaseAuth myAuth=val.firebaseAuth;
     DatabaseReference myData=val.databaseReference;
 
@@ -80,6 +80,9 @@ public class DangNhap extends AppCompatActivity {
                                     if (user.equals(tk.getUser())&&pass.equals(tk.getPass())){
 
                                         uid=snapshot.getKey();
+                                        //Toast.makeText(DangNhap.this, ""+uid.substring(0,7), Toast.LENGTH_SHORT).show();
+                                        //delete_rename();
+                                        //sqLite.QueryData("Insert into "+val.Name_table_sqlite+" values('','','"+uid+"','')");
 
                                         if (luuDN.isChecked()){
                                             insert_sqlite();

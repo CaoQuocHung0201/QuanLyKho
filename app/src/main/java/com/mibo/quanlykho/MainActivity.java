@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
@@ -40,11 +41,16 @@ import com.mibo.quanlykho.Views.XuatKho;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView btnNhap,btnXuat,btnQLTK,btnQLKho,btnThoat;
+    TextView btnNhap,btnXuat,btnQLTK,btnQLKho,btnThoat, tvDate;
     String id="";
+
+    public static String check="";
 
 
     @Override
@@ -57,13 +63,15 @@ public class MainActivity extends AppCompatActivity {
         btnNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NhapKho.class));
+                startActivity(new Intent(MainActivity.this, QuetMa.class));
+                check = "nhap";
             }
         });
         btnXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, QuetMa.class));
+                check = "xuat";
             }
         });
         btnQLTK.setOnClickListener(new View.OnClickListener() {
@@ -216,5 +224,18 @@ public class MainActivity extends AppCompatActivity {
         btnQLTK = findViewById(R.id.btnQLTK);
         btnQLKho = findViewById(R.id.btnQLKho);
         btnThoat = findViewById(R.id.btnThoat_trangchu);
+        tvDate = findViewById(R.id.tvDate);
+
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                String currentDate = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                tvDate.setText(currentDate);
+                //time=String.valueOf(currentDate);
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.postDelayed(r, 0);
+
     }
 }

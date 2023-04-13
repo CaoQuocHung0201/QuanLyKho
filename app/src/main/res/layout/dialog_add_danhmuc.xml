@@ -12,14 +12,16 @@
         android:weightSum="10"
         android:gravity="center"
         >
+
         <EditText
             android:id="@+id/txt_add_name_dm"
             android:layout_width="0dp"
-            android:layout_weight="8"
             android:layout_height="wrap_content"
+            android:layout_weight="8"
             android:background="@drawable/rouded_corner"
             android:hint="Nhập danh mục mới"
-            android:textSize="20sp"/>
+            android:padding="6dp"
+            android:textSize="20sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import com.mibo.quanlykho.Controllers.CaptureAct;
+import com.mibo.quanlykho.MainActivity;
 import com.mibo.quanlykho.R;
 
 public class QuetMa extends AppCompatActivity {
@@ -28,10 +30,20 @@ public class QuetMa extends AppCompatActivity {
     }
     ActivityResultLauncher<ScanOptions> barLaucher=registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents()!=null){
-//            Intent intent=new Intent(MainActivity.this, ImportActivity.class);
-//            intent.putExtra("id",result.getContents());
-//            startActivity(intent);
-//            finish();
+            if(MainActivity.check.equals("nhap")) {
+                Intent intent = new Intent(QuetMa.this, NhapKho.class);
+                intent.putExtra("barcode", result.getContents().toString().trim());
+                startActivity(intent);
+                finish();
+                //Toast.makeText(this, ""+result.getContents(), Toast.LENGTH_SHORT).show();
+            }
+            if(MainActivity.check.equals("xuat")) {
+                Intent intent = new Intent(QuetMa.this, XuatKho.class);
+                intent.putExtra("barcodexuat", result.getContents().toString().trim());
+                startActivity(intent);
+                finish();
+                //Toast.makeText(this, ""+result.getContents(), Toast.LENGTH_SHORT).show();
+            }
         }
     });
 }

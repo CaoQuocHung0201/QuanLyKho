@@ -7,6 +7,30 @@
     tools:context=".Views.XuatKho">
 
     <TextView
+        android:id="@+id/textView14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Giá tiền"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/thoiGian_xuat"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/thoiGian_xuat"
+        app:layout_constraintTop_toBottomOf="@+id/edtSoluong_xuat" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Số lượng xuất kho"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/thoiGian_xuat"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/thoiGian_xuat"
+        app:layout_constraintTop_toBottomOf="@+id/soLuongton_xuat" />
+
+    <TextView
         android:id="@+id/btnXuat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -68,32 +92,35 @@
         android:id="@+id/edtGia_xuat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rouded_corner"
         android:ems="10"
-        android:hint="Giá"
-        android:inputType="text"
+        android:hint="Nhập giá xuất"
+        android:inputType="number"
         android:padding="6dp"
-        android:phoneNumber="false"
+        android:paddingStart="10dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/edtSoluong_xuat"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/edtSoluong_xuat"
-        app:layout_constraintTop_toBottomOf="@+id/edtSoluong_xuat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <EditText
         android:id="@+id/edtSoluong_xuat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rouded_corner"
         android:ems="10"
-        android:hint="Số lượng xuất"
-        android:inputType="text"
+        android:hint="Nhập số lượng xuất"
+        android:inputType="number"
         android:padding="6dp"
+        android:paddingStart="10dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/soLuongton_xuat"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/soLuongton_xuat"
-        app:layout_constraintTop_toBottomOf="@+id/soLuongton_xuat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/thoiGian_xuat"

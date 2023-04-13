@@ -3,6 +3,7 @@ package com.mibo.quanlykho.Views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -41,8 +42,11 @@ public class XuatKho extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xuat_kho);
-        barcode="yuedfrghjkl";
+        Intent intent=getIntent();
+//        barcode="yuedfrghjkl";
+        barcode = intent.getStringExtra("barcodexuat");
         anhxa();
+
 //        select_sqlite();
         get_Time();
         get_sanpham();
@@ -119,10 +123,10 @@ public class XuatKho extends AppCompatActivity {
     }
 
     private void set_Values() {
-        barCode.setText(barcode);
-        Ten.setText(ten_sp);
+        barCode.setText("Barcode: "+barcode);
+        Ten.setText("Tên sản phẩm: "+ten_sp);
         Gia.setText(String.valueOf(gia));
-        soLuongton.setText(String.valueOf(soluong));
+        soLuongton.setText(String.valueOf("Số lượng tồn kho: "+soluong));
 //        HSD.setText(hsd);
 //        thuongHieu.setText(thuonghieu);
 //        xuatXu.setText(xuatxu);
@@ -149,6 +153,9 @@ public class XuatKho extends AppCompatActivity {
         Gia = findViewById(R.id.edtGia_xuat);
         soLuongxuat = findViewById(R.id.edtSoluong_xuat);
         btnQuaylai = findViewById(R.id.btnQuaylai_xuat);
+
+        id_nv = DangNhap.uid;
+        idNhanvien.setText("ID nhân viên: "+id_nv.substring(0,7));
     }
 
     private void get_Time(){
@@ -159,7 +166,7 @@ public class XuatKho extends AppCompatActivity {
         hh = new SimpleDateFormat("hh", Locale.getDefault()).format(new Date());
         mm = new SimpleDateFormat("mm", Locale.getDefault()).format(new Date());
         thoigian=hh+":"+mm+":"+dd+":"+MM+":"+yyyy;
-        thoiGian.setText("Thời gian: "+hh+":"+mm+"  "+dd+":"+MM+":"+yyyy);
+        thoiGian.setText("Thời gian: "+hh+":"+mm+" - "+dd+":"+MM+":"+yyyy);
     }
 
     public void select_sqlite(){
