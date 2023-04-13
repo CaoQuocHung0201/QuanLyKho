@@ -7,6 +7,9 @@ public class phieuNhap {
     private String NhanVien;
     private String BarCode;
 
+    public phieuNhap() {
+    }
+
     public phieuNhap(int soLuong, int giaNhap, String ngayNhap, String nhanVien, String barCode) {
         SoLuong = soLuong;
         GiaNhap = giaNhap;

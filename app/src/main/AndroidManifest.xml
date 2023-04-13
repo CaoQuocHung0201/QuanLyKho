@@ -42,6 +42,9 @@
             android:name=".Views.LichSuNhap_Xuat"
             android:exported="false" />
         <activity
+            android:name=".Views.ThongTinChiTiet"
+            android:exported="false" />
+        <activity
             android:name=".Views.DangNhap"
             android:exported="true">
             <intent-filter>

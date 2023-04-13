@@ -33,7 +33,7 @@ public class TonKho extends AppCompatActivity {
     TextView btnQuaylai;
     ListView listTonkho;
     Spinner danhMuc;
-    ArrayList<String> arr_DanhMuc,arr_MaDanhMuc;
+    ArrayList<String> arr_DanhMuc,arr_MaDanhMuc,arr_barcode;
     ArrayAdapter arrayAdapter_DanhMuc;
 
     DatabaseReference myData = val.databaseReference;
@@ -42,6 +42,7 @@ public class TonKho extends AppCompatActivity {
 
     String[] maDM={""},Barcode={""};
     String str="";
+    public static String barcode="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,9 @@ public class TonKho extends AppCompatActivity {
         listTonkho.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                startActivity(new Intent(TonKho.this,ThongTinChiTiet.class));
-
+                startActivity(new Intent(TonKho.this,ThongTinChiTiet.class));
+                barcode=arr_barcode.get(position);
+                finish();
             }
         });
 
@@ -86,6 +88,7 @@ public class TonKho extends AppCompatActivity {
 
     public void AddDataList_DanhMuc(String madm){
         listSanpham.clear();
+        arr_barcode.clear();
         adapterTonKho.notifyDataSetChanged();
         myData.child(val.Kho).child(madm).addChildEventListener(new ChildEventListener() {
             @Override
@@ -96,6 +99,7 @@ public class TonKho extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         SanPham sanPham = snapshot.getValue(SanPham.class);
                         listSanpham.add(new SanPham(sanPham.getName(),sanPham.getSoLuong()));
+                        arr_barcode.add(snapshot.getKey());
                         adapterTonKho.notifyDataSetChanged();
                     }
 
@@ -144,6 +148,7 @@ public class TonKho extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     SanPham sanPham = snapshot.getValue(SanPham.class);
                                     listSanpham.add(new SanPham(sanPham.getName(),sanPham.getSoLuong()));
+                                    arr_barcode.add(snapshot.getKey());
                                     adapterTonKho.notifyDataSetChanged();
                                 }
 
@@ -238,6 +243,7 @@ public class TonKho extends AppCompatActivity {
         danhMuc = findViewById(R.id.danhmuctonkho);
         listSanpham = new ArrayList<>();
 
+        arr_barcode=new ArrayList();
         arr_DanhMuc=new ArrayList();
         arr_MaDanhMuc=new ArrayList<>();
         arrayAdapter_DanhMuc=new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1,arr_DanhMuc);
