@@ -18,6 +18,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,9 +53,12 @@ import com.mibo.quanlykho.Models.val;
 import com.mibo.quanlykho.R;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.Contract;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,15 +93,12 @@ public class NhapKho extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhap_kho);
+
         anhxa();
         get_DanhMuc();
         get_Time();
-
-//        barcode ="yuedfrghjkl";
-
         //get data nếu trùng barcode
         get_sanpham();
-
         btnQuaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,14 +189,14 @@ public class NhapKho extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             SanPham sp=snapshot.getValue(SanPham.class);
-
                             count[0]=count[0]+1;
                             if (count[0]==1) {
                                 inventory=sp.getSoLuong()+soluong;
                                 up_realtime_slSP();
+                                Toast.makeText(NhapKho.this, "Đã nhập kho", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
 
-                            Log.d("AAA",count[0]+"");
                         }
 
                         @Override
@@ -312,6 +314,7 @@ public class NhapKho extends AppCompatActivity {
                                 hsd = sp.getHSD();
                                 thuonghieu = sp.getThuongHieu();
                                 xuatxu = sp.getXuatXu();
+                                soluong = sp.getSoLuong();
                                 exist = true;
                                 set_Values();
                             }
@@ -419,6 +422,7 @@ public class NhapKho extends AppCompatActivity {
         btnNhap = findViewById(R.id.btnNhap);
         Ten = findViewById(R.id.edtTenSp_nhap);
         Gia = findViewById(R.id.edtGia_nhap);
+        Gia.addTextChangedListener(new PriceTextWatcher());
         soLuong = findViewById(R.id.edtSoluong_nhap);
         HSD = findViewById(R.id.edtHSD_nhap);
         thuongHieu = findViewById(R.id.edtThuonghieu_nhap);
@@ -436,14 +440,46 @@ public class NhapKho extends AppCompatActivity {
         arrayAdapter_DanhMuc=new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1,arr_DanhMuc);
         arrayAdapter_DanhMuc.setDropDownViewResource(android.R.layout.simple_list_item_1);
         danhmuc.setAdapter(arrayAdapter_DanhMuc);
-        Intent intent = getIntent();
-        barcode = intent.getStringExtra("barcode");
+
+//        Intent intent = getIntent();
+//        barcode = intent.getStringExtra("barcode");
+        barcode ="123";
         barCode.setText("Mã barcode: "+barcode);
 
         id_nv = DangNhap.uid;
         idNhanvien.setText("ID nhân viên: "+id_nv.substring(0,7));
 
     }
+
+    private class PriceTextWatcher implements TextWatcher {
+        private String current = "";
+        private final DecimalFormat df = new DecimalFormat("#,###");
+        private Editable s;
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!s.toString().equals(current)) {
+                Gia.removeTextChangedListener(this);
+
+                String cleanString = s.toString().replaceAll("[^\\d]", "");
+                if (!cleanString.isEmpty()) {
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = df.format(parsed);
+                    current = formatted;
+                    Gia.setText(formatted);
+                    Gia.setSelection(formatted.length());
+                }
+
+                Gia.addTextChangedListener(this);
+            }
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {}
+    }
+
 
     private void get_DanhMuc(){
         myData.child(val.TT_DanhMuc).addChildEventListener(new ChildEventListener() {

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.mibo.quanlykho.Models.phieuXuat;
 import com.mibo.quanlykho.Models.val;
 import com.mibo.quanlykho.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -43,10 +46,8 @@ public class XuatKho extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xuat_kho);
         Intent intent=getIntent();
-//        barcode="yuedfrghjkl";
         barcode = intent.getStringExtra("barcodexuat");
         anhxa();
-
 //        select_sqlite();
         get_Time();
         get_sanpham();
@@ -62,6 +63,8 @@ public class XuatKho extends AppCompatActivity {
                     inventory[0]=inventory[0]-soluong;
                     up_realtime_slSP();
                     up_realtime_phieuXuat();
+                    Toast.makeText(XuatKho.this, "Đã xuất kho", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });
@@ -84,6 +87,7 @@ public class XuatKho extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null){
                 danh_muc=snapshot.getValue().toString();
                 myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -104,6 +108,8 @@ public class XuatKho extends AppCompatActivity {
                     }
                 });
             }
+            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -123,10 +129,11 @@ public class XuatKho extends AppCompatActivity {
     }
 
     private void set_Values() {
+
         barCode.setText("Barcode: "+barcode);
         Ten.setText("Tên sản phẩm: "+ten_sp);
         Gia.setText(String.valueOf(gia));
-        soLuongton.setText(String.valueOf("Số lượng tồn kho: "+soluong));
+        soLuongton.setText(String.valueOf("Số lượng tồn kho: "+soluong+" /Cái"));
 //        HSD.setText(hsd);
 //        thuongHieu.setText(thuonghieu);
 //        xuatXu.setText(xuatxu);
@@ -151,11 +158,43 @@ public class XuatKho extends AppCompatActivity {
         soLuongton = findViewById(R.id.soLuongton_xuat);
         btnXuat = findViewById(R.id.btnXuat);
         Gia = findViewById(R.id.edtGia_xuat);
+        Gia.addTextChangedListener(new PriceTextWatcher());
         soLuongxuat = findViewById(R.id.edtSoluong_xuat);
         btnQuaylai = findViewById(R.id.btnQuaylai_xuat);
 
         id_nv = DangNhap.uid;
         idNhanvien.setText("ID nhân viên: "+id_nv.substring(0,7));
+
+        barcode="123";
+        barCode.setText("Barcode: "+barcode);
+    }
+    private class PriceTextWatcher implements TextWatcher {
+        private String current = "";
+        private final DecimalFormat df = new DecimalFormat("#,###");
+        private Editable s;
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!s.toString().equals(current)) {
+                Gia.removeTextChangedListener(this);
+
+                String cleanString = s.toString().replaceAll("[^\\d]", "");
+                if (!cleanString.isEmpty()) {
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = df.format(parsed);
+                    current = formatted;
+                    Gia.setText(formatted);
+                    Gia.setSelection(formatted.length());
+                }
+
+                Gia.addTextChangedListener(this);
+            }
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {}
     }
 
     private void get_Time(){

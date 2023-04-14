@@ -63,15 +63,17 @@ public class MainActivity extends AppCompatActivity {
         btnNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, QuetMa.class));
-                check = "nhap";
+//                startActivity(new Intent(MainActivity.this, QuetMa.class));
+//                check = "nhap";
+                startActivity(new Intent(MainActivity.this, NhapKho.class));
             }
         });
         btnXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, QuetMa.class));
-                check = "xuat";
+//                startActivity(new Intent(MainActivity.this, QuetMa.class));
+//                check = "xuat";
+                startActivity(new Intent(MainActivity.this, XuatKho.class));
             }
         });
         btnQLTK.setOnClickListener(new View.OnClickListener() {
