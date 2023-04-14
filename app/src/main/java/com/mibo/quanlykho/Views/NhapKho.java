@@ -88,6 +88,7 @@ public class NhapKho extends AppCompatActivity {
     List<String> imageList;
 
     Dialog dialog;
+    int iSuccessful=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +183,9 @@ public class NhapKho extends AppCompatActivity {
                 get_Values();
                 if (exist==false) {
                     up_realtime_SP();
+                    for (int i = 0; i < arr_img.size(); i++) {
+                        upload(i);
+                    }
                 }
                 else {
                     final int[] count={0};
@@ -207,9 +211,7 @@ public class NhapKho extends AppCompatActivity {
 
                 }
                 up_realtime_phieuNhap();
-                for (int i = 0; i < arr_img.size(); i++) {
-                    upload(i);
-                }
+
             }
         });
     }
@@ -249,7 +251,17 @@ public class NhapKho extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
                     Uri dowloadUri = task.getResult();
-                    myData.child(val.Kho).child(danh_muc).child(barcode).child(SanPham.Img).child(String.valueOf(i)).setValue(String.valueOf(dowloadUri));
+                    myData.child(val.Kho).child(danh_muc).child(barcode).child(SanPham.Img).child(String.valueOf(i)).setValue(String.valueOf(dowloadUri)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                iSuccessful=iSuccessful+1;//lấy sô để đủ số lượng ảnh để tb up thành công
+                                if (iSuccessful==arr_img.size()){
+                                    Toast.makeText(NhapKho.this, "Nhập thành công", Toast.LENGTH_SHORT).show();
+                                };
+                            }
+                        }
+                    });
                 }
                 else
                     Toast.makeText(NhapKho.this, "Upload lỗi", Toast.LENGTH_SHORT).show();
@@ -316,6 +328,7 @@ public class NhapKho extends AppCompatActivity {
                                 xuatxu = sp.getXuatXu();
                                 soluong = sp.getSoLuong();
                                 exist = true;
+                                btnChupanh.setEnabled(false);
                                 set_Values();
                             }
                         }
@@ -326,17 +339,29 @@ public class NhapKho extends AppCompatActivity {
                         }
                     });
 
-                    myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).child(SanPham.Img).addValueEventListener(new ValueEventListener() {
+                    myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).child(SanPham.Img).addChildEventListener(new ChildEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             if (snapshot.getValue() != null) {
                                 String link = snapshot.getValue().toString();
-                                int l = link.length();
-                                String str = link.substring(1, l - 1);
-
-                                imageFilePath = str;
+                                imageFilePath = link;
                                 setAnh();
                             }
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                         }
 
                         @Override
@@ -357,7 +382,7 @@ public class NhapKho extends AppCompatActivity {
 
     private void get_Values() {
         ten_sp=Ten.getText().toString().trim();
-        gia=Integer.valueOf(Gia.getText().toString().trim());
+        gia=Integer.valueOf(Gia.getText().toString().trim().replace(",",""));
         soluong=Integer.valueOf((String) soLuong.getText().toString().trim());
         hsd=HSD.getText().toString().trim();;
         thuonghieu=thuongHieu.getText().toString().trim();
@@ -399,7 +424,7 @@ public class NhapKho extends AppCompatActivity {
 
     private void up_realtime_slSP(){
         myData.child(val.Kho).child(danh_muc).child(barcode).child(SanPham.sl).setValue(inventory);
-        myData.child(val.Kho).child(val.Local_sp).child(danh_muc).setValue(barcode);
+//        myData.child(val.Kho).child(val.Local_sp).child(danh_muc).setValue(barcode);
     }
 
     private void get_Time(){
@@ -443,7 +468,7 @@ public class NhapKho extends AppCompatActivity {
 
 //        Intent intent = getIntent();
 //        barcode = intent.getStringExtra("barcode");
-        barcode ="123";
+        barcode ="124";
         barCode.setText("Mã barcode: "+barcode);
 
         id_nv = DangNhap.uid;
