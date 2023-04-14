@@ -41,8 +41,6 @@ public class TonKho extends AppCompatActivity {
     AdapterTonKho adapterTonKho;
 
     String[] maDM={""},Barcode={""};
-    String str="";
-    public static String barcode="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,31 +48,31 @@ public class TonKho extends AppCompatActivity {
         setContentView(R.layout.activity_ton_kho);
         anhxa();
         get_DanhMuc();
-        AddDataList();
+//        AddDataList();
 
 
-//        danhMuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                listSanpham.clear();
-//                adapterTonKho.notifyDataSetChanged();
+        danhMuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                if (str.isEmpty()){
 //                    str="1";
 //                }else {
-//                    AddDataList_DanhMuc(String.valueOf(arr_MaDanhMuc.get(i)));
-//                }
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
 //
-//            }
-//        });
+//                }
+                AddDataList_DanhMuc(String.valueOf(arr_MaDanhMuc.get(i)));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         listTonkho.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(TonKho.this,ThongTinChiTiet.class));
-                barcode=arr_barcode.get(position);
+                Intent intent= new Intent(TonKho.this,ThongTinChiTiet.class);
+                intent.putExtra(val.tonkho_ttct,arr_barcode.get(position));
+                startActivity(intent);
                 finish();
             }
         });
@@ -116,8 +114,8 @@ public class TonKho extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Barcode[0] = snapshot.getKey();
-                Log.d("AAA",Barcode[0]);
-                myData.child(val.Kho).child(maDM[0]).child(Barcode[0]).addValueEventListener(new ValueEventListener() {
+//                Log.d("AAA",Barcode[0]);
+                myData.child(val.Kho).child(madm).child(Barcode[0]).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.getValue()!=null){

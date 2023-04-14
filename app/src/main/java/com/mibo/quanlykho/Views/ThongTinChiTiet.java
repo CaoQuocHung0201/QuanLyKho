@@ -29,13 +29,13 @@ public class ThongTinChiTiet extends AppCompatActivity {
     TextView barCode, tenSP, gia1Sp, HSD, soLuong,xuatXu, btnLSNhap, btnLSXuat,btnQuaylai;
     DatabaseReference myData= val.databaseReference;
 
-    String barcode=TonKho.barcode,imageFilePath="";
+    String barcode="",imageFilePath="";
     RecyclerView listAnh;
     List<String> imageList;
 
 //    final String[] tensp={""};
 
-    public static String bc=TonKho.barcode,tsp="";
+    public static String mdm="",tsp="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +44,37 @@ public class ThongTinChiTiet extends AppCompatActivity {
         anhxa();
         load_sanpham();
 
-
         btnQuaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 startActivity(new Intent(ThongTinChiTiet.this,TonKho.class));
+                LichSuNhap_Xuat.str_retrun="";
                 finish();
             }
         });
         btnLSNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ThongTinChiTiet.this,LichSuNhap_Xuat.class));
+                Intent intent = new Intent(ThongTinChiTiet.this,LichSuNhap_Xuat.class);
+                intent.putExtra(val.barcode_ttct_lsnx,barcode);
+                intent.putExtra(val.tsp_ttct_lsnx,tsp);
+                intent.putExtra(val.madm_ttct_lsnx,mdm);
+                intent.putExtra(val.nhap_xuat_ttct_lsnx,true);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnLSXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ThongTinChiTiet.this,LichSuNhap_Xuat.class);
+                intent.putExtra(val.barcode_ttct_lsnx,barcode);
+                intent.putExtra(val.tsp_ttct_lsnx,tsp);
+                intent.putExtra(val.madm_ttct_lsnx,mdm);
+                intent.putExtra(val.nhap_xuat_ttct_lsnx,false);
+                startActivity(intent);
                 finish();
             }
         });
@@ -71,10 +89,24 @@ public class ThongTinChiTiet extends AppCompatActivity {
     }
 
     private void load_sanpham(){
+        Intent intent=getIntent();
+        if (LichSuNhap_Xuat.str_retrun!=null) {
+            if (!LichSuNhap_Xuat.str_retrun.isEmpty()) {
+                barcode = LichSuNhap_Xuat.str_retrun;
+            }
+            else {
+                barcode=intent.getStringExtra(val.tonkho_ttct);
+            }
+        }
+        else {
+            barcode=intent.getStringExtra(val.tonkho_ttct);
+        }
+
         myData.child(val.Kho).child(val.Local_sp).child(barcode).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue()!=null) {
+                    mdm=snapshot.getValue().toString();
                     myData.child(val.Kho).child(snapshot.getValue().toString()).child(barcode).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

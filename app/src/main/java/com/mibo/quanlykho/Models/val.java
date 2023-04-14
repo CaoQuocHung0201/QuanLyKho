@@ -33,4 +33,13 @@ public class val {
 
     public static int My_permission_request=1;
     public static String err_PERMISSION="Yêu cầu cấp quyền truy cập vào bộ nhớ.";
+
+
+    // intent
+    public static String tonkho_ttct="3code";
+    public static String barcode_ttct_lsnx="3code_ttct";
+    public static String madm_ttct_lsnx="madm_ttct";
+    public static String tsp_ttct_lsnx="tsp_ttct";
+    public static String nhap_xuat_ttct_lsnx="trangthai_ttct";
+
 }

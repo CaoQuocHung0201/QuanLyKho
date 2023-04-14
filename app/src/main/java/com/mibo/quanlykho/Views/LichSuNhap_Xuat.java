@@ -27,6 +27,7 @@ import com.mibo.quanlykho.Models.SanPham;
 import com.mibo.quanlykho.Models.TaiKhoan;
 import com.mibo.quanlykho.Models.Thong_tin_lich_su_sp;
 import com.mibo.quanlykho.Models.phieuNhap;
+import com.mibo.quanlykho.Models.phieuXuat;
 import com.mibo.quanlykho.Models.val;
 import com.mibo.quanlykho.R;
 
@@ -45,19 +46,24 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
     ListView listLichsu;
     ArrayList<Thong_tin_lich_su_sp> listTT;
 
-    String barcode=ThongTinChiTiet.bc,tensp=ThongTinChiTiet.tsp,yyyy="2023",MM="04",dd="08",hh="",mm="";
+    String barcode="",tensp="",yyyy="2023",MM="04",dd="08",hh="",mm="";
+    static String str_retrun;
 
-    String name="Tên sản phẩm: ",time="Ngày nhập: ", sl="Số lượng nhập: ",gia="Giá nhập: ",nv="Nhân viên nhập: ",danhMuc="ĐT";
+    String name="Tên sản phẩm: ",time="Ngày nhập: ", sl="Số lượng nhập: ",gia="Giá nhập: ",nv="Nhân viên nhập: ",danhMuc="";
 
     DatabaseReference myData= val.databaseReference;
 
     int i_tu_yyyy=0,i_tu_MM=0,i_tu_dd=0,i_den_yyyy=0,i_den_MM=0,i_den_dd=0;
+
+    Boolean trangThai;
+    String nhapxuat="",idNhapXuat="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lich_su_nhap_xuat);
         anhxa();
+        load_intent();
 //        get_Time();
         listLichsu.setAdapter(adapterLichSu);
 
@@ -84,7 +90,6 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
                 else {
                     listTT.clear();
                     adapterLichSu.notifyDataSetChanged();
-//                    load_lich_su_nhap(tu_yyyy,tu_MM,tu_dd);
                     get_idPhieuNhap();
                 }
             }
@@ -93,16 +98,39 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
         btnQuaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LichSuNhap_Xuat.this,ThongTinChiTiet.class));
+                Intent intent=new Intent(LichSuNhap_Xuat.this,ThongTinChiTiet.class);
+                str_retrun=barcode;
+                startActivity(intent);
                 finish();
             }
         });
 
     }
 
+    private void load_intent() {
+
+        Intent intent=getIntent();
+        barcode=intent.getStringExtra(val.barcode_ttct_lsnx);
+        tensp=intent.getStringExtra(val.tsp_ttct_lsnx);
+        danhMuc=intent.getStringExtra(val.madm_ttct_lsnx);
+        trangThai=intent.getBooleanExtra(val.nhap_xuat_ttct_lsnx,true);
+
+        if (trangThai) {
+            nhapxuat=val.TT_Nhap;
+            idNhapXuat=SanPham.ngNhap;
+            tieude.setText("LỊCH SỬ NHẬP");
+        }
+        else{
+            nhapxuat=val.TT_Xuat;
+            idNhapXuat=SanPham.ngXuat;
+            tieude.setText("LỊCH SỬ XUẤT");
+        }
+
+    }
+
     private void get_idPhieuNhap(){
 //        tu_yyyy="2023";tu_MM="04";tu_dd="08";den_yyyy="2025";den_MM="06";den_dd="31";
-        myData.child(val.Kho).child(danhMuc).child(barcode).child(SanPham.ngNhap).addChildEventListener(new ChildEventListener() {
+        myData.child(val.Kho).child(danhMuc).child(barcode).child(idNhapXuat).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String key_yyyy="",key_MM="",key_dd="";
@@ -116,14 +144,11 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
                 int i_key_yyyy=Integer.valueOf(snapshot.getKey().substring(12,snapshot.getKey().length()));
 
                 if (i_tu_dd==i_den_dd && i_tu_MM==i_den_MM && i_tu_yyyy==i_den_yyyy) {// trong ngày
-                    Toast.makeText(LichSuNhap_Xuat.this, "tr", Toast.LENGTH_SHORT).show();
-                    load_ls_dd(tu_yyyy,tu_MM,tu_dd,snapshot.getValue().toString());
+                    load_ls(tu_yyyy,tu_MM,tu_dd,snapshot.getValue().toString());
                 }
                 else if ((i_key_dd>=i_tu_dd && i_key_MM==i_tu_MM && i_key_yyyy==i_tu_yyyy)//ngày bắt đầu
                         ||(i_key_dd>=i_tu_dd && i_key_dd<=i_den_dd && i_key_MM<=i_den_MM && i_key_yyyy<=i_den_yyyy)){//ngày kết thúc
-//                    Log.d("AAA",key_dd+"/"+key_MM+"/"+key_yyyy+"   "+snapshot.getValue());
-                    Toast.makeText(LichSuNhap_Xuat.this, "0tr", Toast.LENGTH_SHORT).show();
-                    load_ls_dd(key_yyyy,key_MM,key_dd,snapshot.getValue().toString());
+                    load_ls(key_yyyy,key_MM,key_dd,snapshot.getValue().toString());
                 }
             }
 
@@ -192,88 +217,59 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-//    private void load_ls_yyyy(String stryyyy){
-//        myData.child(val.TT_Nhap).child(danhMuc).child(stryyyy).addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-//
-//    private void load_ls_MM(String stryyyy,String strMM){
-//        myData.child(val.TT_Nhap).child(danhMuc).child(stryyyy).child(strMM).addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
-    private void load_ls_dd(String stryyyy,String strMM,String strdd,String id){
+    private void load_ls(String stryyyy,String strMM,String strdd,String id){
 //        snapshot.getKey()
-        myData.child(val.TT_Nhap).child(danhMuc).child(stryyyy).child(strMM).child(strdd).child(id).addValueEventListener(new ValueEventListener() {
+        final String[] namenv={""};
+        myData.child(nhapxuat).child(danhMuc).child(stryyyy).child(strMM).child(strdd).child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue()!=null){
-                    phieuNhap pN=snapshot.getValue(phieuNhap.class);
-                    if (pN.getBarCode().equals(barcode)){
-                        //lay ten nv
-                        myData.child(val.TT_Tai_Khoan).child(pN.getNhanVien()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                TaiKhoan tk=snapshot.getValue(TaiKhoan.class);
-                                listTT.add(new Thong_tin_lich_su_sp(name+tensp,gia+pN.getGiaNhap()+"  VND",sl+pN.getSoLuong(),time+pN.getNgayNhap(),nv+tk.getName()));
-                                adapterLichSu.notifyDataSetChanged();
-                            }
+                    if (trangThai){//nhap
+                        phieuNhap pN=snapshot.getValue(phieuNhap.class);
+                        if (pN.getBarCode().equals(barcode)){
+                            //lay ten nv
+                            myData.child(val.TT_Tai_Khoan).child(pN.getNhanVien()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    TaiKhoan tk=snapshot.getValue(TaiKhoan.class);
+                                    namenv[0]= tk.getName();
+                                    listTT.add(new Thong_tin_lich_su_sp(name+tensp,gia+pN.getGiaNhap()+"  VND",sl+pN.getSoLuong(),time+pN.getNgayNhap(),nv+namenv[0]));
+                                    adapterLichSu.notifyDataSetChanged();
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-
+                                }
+                            });
+                        }
                     }
+                    else {//xuat
+                        phieuXuat pX=snapshot.getValue(phieuXuat.class);
+                        if (pX.getBarCode().equals(barcode)){
+                            //lay ten nv
+                            myData.child(val.TT_Tai_Khoan).child(pX.getNhanVien()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    TaiKhoan tk=snapshot.getValue(TaiKhoan.class);
+                                    namenv[0]= tk.getName();
+                                    listTT.add(new Thong_tin_lich_su_sp(name+tensp,gia+pX.getGiaXuat()+"  VND",sl+pX.getSoLuong(),time+pX.getNgayXuat(),nv+namenv[0]));
+                                    adapterLichSu.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+
+
+
+
+
                 }
             }
 
