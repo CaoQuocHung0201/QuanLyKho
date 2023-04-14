@@ -16,17 +16,15 @@ import java.util.List;
 
 public class AdapterTonKho extends BaseAdapter {
 
+    private TonKho context;
+    private int layout;
+    private List<SanPham> sanPhamList;
 
     public AdapterTonKho(TonKho context, int layout, List<SanPham> sanPhamList) {
         this.context = context;
         this.layout = layout;
         this.sanPhamList = sanPhamList;
     }
-
-    private TonKho context;
-    private int layout;
-    private List<SanPham> sanPhamList;
-
 
 
     @Override

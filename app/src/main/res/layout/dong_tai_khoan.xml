@@ -15,7 +15,6 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rouded_corner"
         android:padding="8dp"
-        android:text="Tên"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnXoaTK"
         app:layout_constraintStart_toStartOf="parent"

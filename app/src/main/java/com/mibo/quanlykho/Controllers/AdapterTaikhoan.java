@@ -56,7 +56,6 @@ public class AdapterTaikhoan extends BaseAdapter {
         }
         TaiKhoan taiKhoan = taiKhoanList.get(position);
         viewHolder.tvName.setText(taiKhoan.getName());
-
         viewHolder.btnSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
