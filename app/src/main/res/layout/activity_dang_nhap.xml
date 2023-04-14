@@ -38,7 +38,7 @@
         android:id="@+id/btnDangNhap"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rouded_corner"
         android:backgroundTint="#0078e6"
         android:backgroundTintMode="src_in"
@@ -48,15 +48,15 @@
         android:textColor="#ffffff"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnThoat"
         app:layout_constraintEnd_toEndOf="@+id/edtMK"
-        app:layout_constraintStart_toStartOf="@+id/edtMK"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintStart_toStartOf="@+id/edtMK" />
 
     <TextView
         android:id="@+id/btnThoat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rouded_corner"
         android:backgroundTint="#0078e6"
         android:backgroundTintMode="src_in"
@@ -66,10 +66,10 @@
         android:textColor="#ffffff"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/edtMK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnDangNhap"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edtMK"
-        app:layout_constraintTop_toBottomOf="@+id/btnDangNhap" />
+        app:layout_constraintStart_toStartOf="@+id/btnDangNhap" />
 
     <CheckBox
         android:id="@+id/checkBox"

@@ -47,7 +47,9 @@ public class TonKho extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ton_kho);
         anhxa();
+
         get_DanhMuc();
+//        arr_DanhMuc.add("Tất cả");
 //        AddDataList();
 
 

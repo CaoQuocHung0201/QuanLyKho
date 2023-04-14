@@ -66,34 +66,39 @@
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/denNgay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/denNgay" />
 
     <TextView
         android:id="@+id/tuNgay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/rouded_corner"
         android:hint="Từ ngày"
         android:inputType="text"
-        android:padding="5dp"
-        android:textSize="16sp"
+        android:padding="7dp"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tieuDe" />
 
     <TextView
         android:id="@+id/denNgay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rouded_corner"
         android:hint="Đến ngày"
         android:inputType="text"
-        android:padding="5dp"
-        android:textSize="16sp"
+        android:padding="7dp"
+        android:textAlignment="center"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/btnLocNgay"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/tuNgay" />
 
     <TextView
@@ -127,6 +132,8 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Đến"
         app:layout_constraintBottom_toBottomOf="@+id/tuNgay"
         app:layout_constraintEnd_toStartOf="@+id/denNgay"

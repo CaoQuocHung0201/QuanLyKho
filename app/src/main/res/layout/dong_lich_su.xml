@@ -1,96 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rouded_corner"
+    android:backgroundTintMode="add"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/btnXuat_donglichsu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/exportpdf"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:weightSum="10">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnXuat_donglichsu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/gia_donglichsu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="7.7"
+            android:hint="Giá"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/soluong_donglichsu"
+            app:layout_constraintTop_toBottomOf="@+id/soluong_donglichsu" />
+
+        <TextView
+            android:id="@+id/soluong_donglichsu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="7.7"
+            android:hint="Số lượng"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/ngay_donglichsu"
+            app:layout_constraintTop_toBottomOf="@+id/ngay_donglichsu" />
+
         <TextView
             android:id="@+id/tenSP_donglichsu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8.9"
-            android:background="@drawable/rouded_corner"
             android:hint="Tên sản phẩm"
             android:inputType="text"
             android:padding="5dp"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/btnXuat_donglichsu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/exportpdf"
-            android:inputType="text"
-            android:padding="5dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="10">
-        <TextView
-            android:id="@+id/ngay_donglichsu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7.7"
-            android:background="@drawable/rouded_corner"
-            android:hint="Ngày nhập"
-            android:inputType="text"
-            android:padding="5dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="10">
-        <TextView
-            android:id="@+id/soluong_donglichsu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7.7"
-            android:background="@drawable/rouded_corner"
-            android:hint="Số lượng"
-            android:inputType="text"
-            android:padding="5dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="10">
-        <TextView
-            android:id="@+id/gia_donglichsu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7.7"
-            android:background="@drawable/rouded_corner"
-            android:hint="Giá"
-            android:inputType="text"
-            android:padding="5dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="10">
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/nv_donglichsu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_weight="7.7"
-            android:background="@drawable/rouded_corner"
             android:hint="Người làm"
             android:inputType="text"
             android:padding="5dp"
-            android:textSize="16sp"/>
-    </LinearLayout>
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/gia_donglichsu"
+            app:layout_constraintTop_toBottomOf="@+id/gia_donglichsu" />
+
+        <TextView
+            android:id="@+id/ngay_donglichsu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="7.7"
+            android:hint="Ngày nhập"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tenSP_donglichsu"
+            app:layout_constraintTop_toBottomOf="@+id/tenSP_donglichsu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

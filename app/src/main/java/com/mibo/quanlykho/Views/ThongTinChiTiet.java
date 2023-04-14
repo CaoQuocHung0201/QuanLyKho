@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,12 +23,13 @@ import com.mibo.quanlykho.Models.SanPham;
 import com.mibo.quanlykho.Models.val;
 import com.mibo.quanlykho.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ThongTinChiTiet extends AppCompatActivity {
 
-    TextView barCode, tenSP, gia1Sp, HSD, soLuong,xuatXu, btnLSNhap, btnLSXuat,btnQuaylai;
+    TextView barCode, tenSP, gia1Sp, HSD, soLuong, thuongHieu,xuatXu, btnLSNhap, btnLSXuat,btnQuaylai;
     DatabaseReference myData= val.databaseReference;
 
     String barcode="",imageFilePath="";
@@ -113,11 +116,12 @@ public class ThongTinChiTiet extends AppCompatActivity {
                             if (snapshot.getValue() != null) {
                                 SanPham sanPham = snapshot.getValue(SanPham.class);
                                 barCode.setText("Barcode: " + barcode);
-                                tenSP.setText("Tên SP: " + sanPham.getName());
-                                gia1Sp.setText("Giá SP: " + sanPham.getGiaNhap()+"  VNĐ");
+                                tenSP.setText("Tên sản phẩm: " + sanPham.getName());
+                                gia1Sp.setText("Giá: " + sanPham.getGiaNhap()+"  VNĐ");
                                 HSD.setText("Hạn sử dụng: " + sanPham.getHSD());
-                                soLuong.setText("Số lượng: " + sanPham.getSoLuong());
-                                xuatXu.setText("Thương hiệu: " + sanPham.getThuongHieu() + "   Xuất xứ: " + sanPham.getXuatXu());
+                                soLuong.setText("Số lượng: " + sanPham.getSoLuong()+" Cái");
+                                thuongHieu.setText("Thương hiệu: " + sanPham.getThuongHieu());
+                                xuatXu.setText("Xuất xứ: " + sanPham.getXuatXu());
                                 tsp=sanPham.getName();
                             }
                         }
@@ -159,13 +163,43 @@ public class ThongTinChiTiet extends AppCompatActivity {
         barCode = findViewById(R.id.barCode_ton);
         tenSP = findViewById(R.id.tenSP_ton);
         gia1Sp = findViewById(R.id.gia1SP_ton);
+        gia1Sp.addTextChangedListener(new PriceTextWatcher());
         HSD = findViewById(R.id.HSD_ton);
         soLuong = findViewById(R.id.soluong_ton);
+        thuongHieu = findViewById(R.id.thuonghieu_ton);
         xuatXu = findViewById(R.id.xuatxu_ton);
         btnLSNhap= findViewById(R.id.btnLSNhap_ton);
         btnLSXuat= findViewById(R.id.btnLSXuat_ton);
         btnQuaylai= findViewById(R.id.btnQuaylai_ton);
         listAnh = findViewById(R.id.listAnh_thongtinchitiet);
         imageList = new ArrayList<>();
+    }
+    private class PriceTextWatcher implements TextWatcher {
+        private String current = "";
+        private final DecimalFormat df = new DecimalFormat("#,###");
+        private Editable s;
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!s.toString().equals(current)) {
+                gia1Sp.removeTextChangedListener(this);
+
+                String cleanString = s.toString().replaceAll("[^\\d]", "");
+                if (!cleanString.isEmpty()) {
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = df.format(parsed);
+                    current = formatted;
+                    gia1Sp.setText(formatted);
+                    //gia1Sp.setSelection(formatted.length());
+                }
+
+                gia1Sp.addTextChangedListener(this);
+            }
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {}
     }
 }

@@ -133,7 +133,7 @@ public class XuatKho extends AppCompatActivity {
         barCode.setText("Barcode: "+barcode);
         Ten.setText("Tên sản phẩm: "+ten_sp);
         Gia.setText(String.valueOf(gia));
-        soLuongton.setText(String.valueOf("Số lượng tồn kho: "+soluong+" /Cái"));
+        soLuongton.setText(String.valueOf("Số lượng tồn kho: "+soluong+" Cái"));
 //        HSD.setText(hsd);
 //        thuongHieu.setText(thuonghieu);
 //        xuatXu.setText(xuatxu);
