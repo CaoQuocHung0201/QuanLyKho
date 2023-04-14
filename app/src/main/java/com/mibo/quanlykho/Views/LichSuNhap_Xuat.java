@@ -46,10 +46,10 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
     ListView listLichsu;
     ArrayList<Thong_tin_lich_su_sp> listTT;
 
-    String barcode="",tensp="",yyyy="2023",MM="04",dd="08",hh="",mm="";
+    String barcode="",tensp="",yyyy="",MM="",dd="",hh="",mm="";
     static String str_retrun;
 
-    String name="Tên sản phẩm: ",time="Ngày nhập: ", sl="Số lượng nhập: ",gia="Giá nhập: ",nv="Nhân viên nhập: ",danhMuc="";
+    String name="Tên sản phẩm: ",time="", sl="",gia="",nv="",danhMuc="";
 
     DatabaseReference myData= val.databaseReference;
 
@@ -64,7 +64,7 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
         setContentView(R.layout.activity_lich_su_nhap_xuat);
         anhxa();
         load_intent();
-//        get_Time();
+        get_Time();
         listLichsu.setAdapter(adapterLichSu);
 
         tuNgay.setOnClickListener(new View.OnClickListener() {
@@ -119,11 +119,19 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
             nhapxuat=val.TT_Nhap;
             idNhapXuat=SanPham.ngNhap;
             tieude.setText("LỊCH SỬ NHẬP");
+            time="Ngày nhập: ";
+            sl="Số lượng nhập: ";
+            gia="Giá nhập: ";
+            nv="Nhân viên nhập: ";
         }
         else{
             nhapxuat=val.TT_Xuat;
             idNhapXuat=SanPham.ngXuat;
             tieude.setText("LỊCH SỬ XUẤT");
+            time="Ngày xuất: ";
+            sl="Số lượng xuất: ";
+            gia="Giá xuất: ";
+            nv="Nhân viên xuất: ";
         }
 
     }
@@ -148,6 +156,10 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
                 }
                 else if ((i_key_dd>=i_tu_dd && i_key_MM==i_tu_MM && i_key_yyyy==i_tu_yyyy)//ngày bắt đầu
                         ||(i_key_dd>=i_tu_dd && i_key_dd<=i_den_dd && i_key_MM<=i_den_MM && i_key_yyyy<=i_den_yyyy)){//ngày kết thúc
+                    load_ls(key_yyyy,key_MM,key_dd,snapshot.getValue().toString());
+                }
+
+                if (yyyy.equals(key_yyyy) && MM.equals(key_MM) && dd.equals(key_dd) && i_tu_dd==0){//load theo ngày khi mới vào
                     load_ls(key_yyyy,key_MM,key_dd,snapshot.getValue().toString());
                 }
             }
@@ -288,6 +300,7 @@ public class LichSuNhap_Xuat extends AppCompatActivity {
         mm = new SimpleDateFormat("mm", Locale.getDefault()).format(new Date());
 //        thoigian=hh+":"+mm+":"+dd+":"+MM+":"+yyyy;
 //        thoiGian.setText("Thời gian: "+hh+":"+mm+"  "+dd+":"+MM+":"+yyyy);
+        get_idPhieuNhap();
     }
 
     private void anhxa(){
