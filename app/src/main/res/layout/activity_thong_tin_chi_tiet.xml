@@ -10,7 +10,7 @@
         android:id="@+id/gia1SP_ton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="VND"
         android:textSize="16sp"
@@ -147,12 +147,13 @@
         android:id="@+id/gia1SP_ton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
         android:text="Giá 1 SP"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/gia1SP_ton2"
         app:layout_constraintStart_toEndOf="@+id/gia1SP_ton2"
-        app:layout_constraintTop_toBottomOf="@+id/tenSP_ton" />
+        app:layout_constraintTop_toTopOf="@+id/gia1SP_ton2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/tenSP_ton"
@@ -197,7 +198,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listAnh_thongtinchitiet"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"

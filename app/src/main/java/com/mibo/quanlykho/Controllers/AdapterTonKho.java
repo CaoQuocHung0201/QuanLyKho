@@ -49,7 +49,6 @@ public class AdapterTonKho extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=inflater.inflate(layout,null);
-            //viewHolder.ngayNhapDauTien = convertView.findViewById(R.id.ngaynhap_dongtonkho);
             viewHolder.tenSP = convertView.findViewById(R.id.tenSP_dongtonkho);
             viewHolder.soLuong = convertView.findViewById(R.id.soLuong_dongtonkho);
             convertView.setTag(viewHolder);
@@ -64,6 +63,6 @@ public class AdapterTonKho extends BaseAdapter {
     }
 
     private class ViewHolder{
-        TextView ngayNhapDauTien, tenSP, soLuong;
+        TextView tenSP, soLuong;
     }
 }

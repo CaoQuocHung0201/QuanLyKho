@@ -121,7 +121,8 @@ public class XuatKho extends AppCompatActivity {
 
     private void get_Values() {
         ten_sp=Ten.getText().toString().trim();
-        gia=Integer.valueOf(Gia.getText().toString().trim());
+        gia=Integer.valueOf(Gia.getText().toString().trim().replace(".",""));
+
         soluong=Integer.valueOf((String) soLuongxuat.getText().toString().trim());
 //        hsd=HSD.getText().toString().trim();;
 //        thuonghieu=thuongHieu.getText().toString().trim();
@@ -165,7 +166,7 @@ public class XuatKho extends AppCompatActivity {
         id_nv = DangNhap.uid;
         idNhanvien.setText("ID nhân viên: "+id_nv.substring(0,7));
 
-        barcode="123";
+        //barcode="123";
         barCode.setText("Barcode: "+barcode);
     }
     private class PriceTextWatcher implements TextWatcher {

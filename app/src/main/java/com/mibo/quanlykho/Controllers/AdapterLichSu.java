@@ -1,6 +1,8 @@
 package com.mibo.quanlykho.Controllers;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import com.mibo.quanlykho.Models.Thong_tin_lich_su_sp;
 import com.mibo.quanlykho.R;
 import com.mibo.quanlykho.Views.LichSuNhap_Xuat;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class AdapterLichSu extends BaseAdapter {
@@ -53,6 +56,7 @@ public class AdapterLichSu extends BaseAdapter {
             viewHolder.tenSP = convertView.findViewById(R.id.tenSP_donglichsu);
             viewHolder.soLuong = convertView.findViewById(R.id.soluong_donglichsu);
             viewHolder.gia = convertView.findViewById(R.id.gia_donglichsu);
+
             viewHolder.nguoi = convertView.findViewById(R.id.nv_donglichsu);
             convertView.setTag(viewHolder);
         }else {
@@ -69,4 +73,5 @@ public class AdapterLichSu extends BaseAdapter {
     private class ViewHolder{
         TextView ngay, tenSP, soLuong,gia,nguoi;
     }
+
 }

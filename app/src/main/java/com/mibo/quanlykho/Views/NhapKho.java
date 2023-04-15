@@ -5,15 +5,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -68,8 +73,8 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class NhapKho extends AppCompatActivity {
-    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap,btnThemdanhmuc, btnQuaylai;
-    EditText Ten,Gia,soLuong,HSD,thuongHieu,xuatXu;
+    TextView idNhanvien, barCode, thoiGian, btnChupanh, btnNhap,btnThemdanhmuc, btnQuaylai, HSD;
+    EditText Ten,Gia,soLuong,thuongHieu,xuatXu;
     Spinner danhmuc;
     RecyclerView listAnh;
 
@@ -100,6 +105,13 @@ public class NhapKho extends AppCompatActivity {
         get_Time();
         //get data nếu trùng barcode
         get_sanpham();
+
+        HSD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                set_time("");
+            }
+        });
         btnQuaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,7 +245,7 @@ public class NhapKho extends AppCompatActivity {
 
         Bitmap bitmap = arr_img.get(i);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.WEBP,50,baos);
+        bitmap.compress(Bitmap.CompressFormat.WEBP,100,baos);
 
         byte[] data_img = baos.toByteArray();
 
@@ -258,6 +270,7 @@ public class NhapKho extends AppCompatActivity {
                                 iSuccessful=iSuccessful+1;//lấy sô để đủ số lượng ảnh để tb up thành công
                                 if (iSuccessful==arr_img.size()){
                                     Toast.makeText(NhapKho.this, "Nhập thành công", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 };
                             }
                         }
@@ -299,7 +312,7 @@ public class NhapKho extends AppCompatActivity {
 
         try {
             FileOutputStream fos = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 50, fos);
+            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, fos);
             fos.flush();
             fos.close();
         } catch (Exception e) {
@@ -329,6 +342,8 @@ public class NhapKho extends AppCompatActivity {
                                 soluong = sp.getSoLuong();
                                 exist = true;
                                 btnChupanh.setEnabled(false);
+                                Drawable drawable = ContextCompat.getDrawable(NhapKho.this, R.drawable.rouded_corne_disable);
+                                btnChupanh.setBackground(drawable);
                                 set_Values();
                             }
                         }
@@ -382,7 +397,8 @@ public class NhapKho extends AppCompatActivity {
 
     private void get_Values() {
         ten_sp=Ten.getText().toString().trim();
-        gia=Integer.valueOf(Gia.getText().toString().trim().replace(",",""));
+        //gia=Integer.valueOf(Gia.getText().toString().trim().replace(",",""));
+        gia=Integer.valueOf(Gia.getText().toString().trim().replace(".",""));
         soluong=Integer.valueOf((String) soLuong.getText().toString().trim());
         hsd=HSD.getText().toString().trim();;
         thuonghieu=thuongHieu.getText().toString().trim();
@@ -466,13 +482,16 @@ public class NhapKho extends AppCompatActivity {
         arrayAdapter_DanhMuc.setDropDownViewResource(android.R.layout.simple_list_item_1);
         danhmuc.setAdapter(arrayAdapter_DanhMuc);
 
-//        Intent intent = getIntent();
-//        barcode = intent.getStringExtra("barcode");
-        barcode ="124";
+        Intent intent = getIntent();
+        barcode = intent.getStringExtra("barcode");
+        barcode ="111";
         barCode.setText("Mã barcode: "+barcode);
 
         id_nv = DangNhap.uid;
         idNhanvien.setText("ID nhân viên: "+id_nv.substring(0,7));
+
+        Drawable drawable = ContextCompat.getDrawable(NhapKho.this, R.drawable.rouded_blue);
+        btnChupanh.setBackground(drawable);
 
     }
 
@@ -549,5 +568,49 @@ public class NhapKho extends AppCompatActivity {
         }
 
 
+    }
+    private void set_time(String str) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month=month+1;
+                String str_yyyy=String.valueOf(year);
+                String str_MM=String.valueOf(month);
+                if (month<10)
+                    str_MM="0"+month;
+
+                String str_dd=String.valueOf(dayOfMonth);
+                if (dayOfMonth<10)
+                    str_dd="0"+dayOfMonth;
+
+                HSD.setText(str_dd+"/"+str_MM+"/"+str_yyyy);
+//                Toast.makeText(NhapKho.this, str_dd+"/"+str_MM+"/"+str_yyyy, Toast.LENGTH_SHORT).show();
+
+//                if (str.isEmpty()) {
+//                    tuNgay.setText(str_dd + "/" + str_MM + "/" + str_yyyy);
+//                    tu_yyyy=str_yyyy;
+//                    tu_MM=str_MM;
+//                    tu_dd=str_dd;
+//
+//                    i_tu_yyyy=year;
+//                    i_tu_MM=month;
+//                    i_tu_dd=dayOfMonth;
+//
+//                }
+//                else {
+//                    denNgay.setText(str_dd + "/" + str_MM + "/" + str_yyyy);
+//                    den_yyyy=str_yyyy;
+//                    den_MM=str_MM;
+//                    den_dd=str_dd;
+//
+//                    i_den_yyyy=year;
+//                    i_den_MM=month;
+//                    i_den_dd=dayOfMonth;
+//                }
+            }
+        },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setCancelable(false);
+        datePickerDialog.show();
     }
 }

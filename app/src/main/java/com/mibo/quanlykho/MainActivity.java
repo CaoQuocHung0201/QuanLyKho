@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
         btnXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, QuetMa.class));
-//                check = "xuat";
-                startActivity(new Intent(MainActivity.this, XuatKho.class));
+                startActivity(new Intent(MainActivity.this, QuetMa.class));
+                check = "xuat";
+//                startActivity(new Intent(MainActivity.this, XuatKho.class));
             }
         });
         btnQLTK.setOnClickListener(new View.OnClickListener() {

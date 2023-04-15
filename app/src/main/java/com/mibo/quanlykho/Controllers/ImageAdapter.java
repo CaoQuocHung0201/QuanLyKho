@@ -1,5 +1,6 @@
 package com.mibo.quanlykho.Controllers;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,24 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Glide.with(context)
                 .load(imageUrl)
                 .into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo Dialog mới
+                Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                dialog.setContentView(R.layout.dialog_layout);
+
+                // Tìm ImageView trong Dialog
+                ImageView imageView = dialog.findViewById(R.id.dialog_imageview);
+
+                // Set hình ảnh vào ImageView
+                Glide.with(context).load(imageUrl).into(imageView);
+                //imageView.setImageResource(Integer.parseInt(imageUrl));
+
+                // Hiển thị Dialog
+                dialog.show();
+            }
+        });
     }
 
     @Override
